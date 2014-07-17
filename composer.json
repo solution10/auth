@@ -1,0 +1,28 @@
+{
+    "name": "solution10/auth",
+    "description": "Powerful and extremely flexible authentication",
+    "minimum-stability": "stable",
+    "keywords": ["component", "auth", "authentication", "access control", "acl"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alex Gisby",
+            "email": "alex@solution10.com"
+        }
+    ],
+    "require": {
+        "php": ">= 5.3.7",
+        "solution10/collection": "1.*",
+        "ircmaxell/password-compat": "1.0.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.1.*",
+        "squizlabs/php_codesniffer": "1.*",
+        "satooshi/php-coveralls": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {
+            "Solution10\\Auth": "src"
+        }
+    }
+}

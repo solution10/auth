@@ -1,0 +1,16 @@
+{
+	"users": [
+		{
+			"id": 1,
+			"instance_name": "default",
+			"username": "Alex",
+			"password": "???"
+		},
+		{
+			"id": 2,
+			"instance_name": "default",
+			"username": "Jake",
+			"password": "???"
+		}
+	]
+}
