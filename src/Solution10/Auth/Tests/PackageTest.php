@@ -31,9 +31,9 @@ class PackageTest extends PHPUnit_Framework_TestCase
         // directly from your classes.
 
         $callbacks = array(
-            'edit_post'         => array($package, 'edit_post'),
-            'static_string'     => 'Solution10\Auth\Tests\Mocks\Package::static_string',
-            'static_array'      => array('Solution10\Auth\Tests\Mocks\Package', 'static_array'),
+            'editPost'         => array($package, 'editPost'),
+            'staticString'     => 'Solution10\Auth\Tests\Mocks\Package::staticString',
+            'staticArray'      => array('Solution10\Auth\Tests\Mocks\Package', 'staticArray'),
             'closure'           => function () {
                 return false;
             },

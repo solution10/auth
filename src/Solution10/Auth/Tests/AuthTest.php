@@ -4,6 +4,7 @@ namespace Solution10\Auth\Tests;
 
 use PHPUnit_Framework_TestCase;
 use Solution10\Auth\Auth as Auth;
+use Solution10\Auth\Tests\Mocks\Package;
 use Solution10\Auth\Tests\Mocks\SessionDelegate as SessionDelegateMock;
 use Solution10\Auth\Tests\Mocks\StorageDelegate as StorageDelegateMock;
 use Solution10\Auth\Tests\Mocks\Package as PackageMock;
@@ -14,8 +15,19 @@ use Solution10\Auth\Tests\Mocks\UserRepresentation as UserRepMock;
  */
 class AuthTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @var     Auth
+     */
     protected $default_instance;
+
+    /**
+     * @var     SessionDelegateMock
+     */
     protected $session_mock;
+
+    /**
+     * @var     StorageDelegateMock
+     */
     protected $storage_mock;
 
     /**
@@ -30,7 +42,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
             $this->session_mock,
             $this->storage_mock,
             array(
-                'phpass_cost' => 8,
+                'cost' => 8,
             )
         );
     }
@@ -43,20 +55,9 @@ class AuthTest extends PHPUnit_Framework_TestCase
         $session = new SessionDelegateMock();
         $storage = new StorageDelegateMock();
         $auth = new Auth('default', $session, $storage, array(
-            'phpass_cost' => 8,
+            'cost' => 8,
         ));
         $this->assertTrue($auth instanceof Auth);
-    }
-
-    /**
-     * Test error with phpass cost not specified
-     *
-     * @expectedException        Solution10\Auth\Exception\Phpass
-     * @expectedExceptionCode    0
-     */
-    public function testNoPhpassCost()
-    {
-        new Auth('default', $this->session_mock, $this->storage_mock, array());
     }
 
     /**
@@ -73,7 +74,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
     public function testHashing()
     {
         $pass = 'fgjkdfhgdf77989';
-        $hashed = $this->default_instance->hash_password($pass);
+        $hashed = $this->default_instance->hashPassword($pass);
         $this->assertEquals(60, strlen($hashed));
         $this->assertEquals(0, strpos($hashed, '$2a'));
     }
@@ -84,8 +85,8 @@ class AuthTest extends PHPUnit_Framework_TestCase
     public function testPasswordCheck()
     {
         $pass = 'fjdggy744;0';
-        $hashed = $this->default_instance->hash_password($pass);
-        $this->assertTrue($this->default_instance->check_password($pass, $hashed));
+        $hashed = $this->default_instance->hashPassword($pass);
+        $this->assertTrue($this->default_instance->checkPassword($pass, $hashed));
     }
 
     /**
@@ -119,7 +120,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
     {
         // Create a clean auth instance:
         $auth = new Auth('default', $this->session_mock, $this->storage_mock, array(
-            'phpass_cost' => 8,
+            'cost' => 8,
         ));
 
         $this->assertFalse($auth->loggedIn());
@@ -135,7 +136,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
     {
         // Create a clean auth instance:
         $auth = new Auth('default', $this->session_mock, $this->storage_mock, array(
-            'phpass_cost' => 8,
+            'cost' => 8,
         ));
 
         $this->assertFalse($auth->loggedIn());
@@ -153,7 +154,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
     public function testForceLoginInt()
     {
         $auth = new Auth('default', $this->session_mock, $this->storage_mock, array(
-            'phpass_cost' => 8,
+            'cost' => 8,
         ));
 
         $this->assertFalse($auth->loggedIn());
@@ -168,7 +169,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
     public function testForceLoginUserRep()
     {
         $auth = new Auth('default', $this->session_mock, $this->storage_mock, array(
-            'phpass_cost' => 8,
+            'cost' => 8,
         ));
 
         $user_rep = new UserRepMock($this->storage_mock->users[1]);
@@ -185,7 +186,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
     public function testForceLoginUnknownUser()
     {
         $auth = new Auth('default', $this->session_mock, $this->storage_mock, array(
-            'phpass_cost' => 8,
+            'cost' => 8,
         ));
 
         $this->assertFalse($auth->loggedIn());
@@ -199,7 +200,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
     public function testForceLoginBadUserRep()
     {
         $auth = new Auth('default', $this->session_mock, $this->storage_mock, array(
-            'phpass_cost' => 8,
+            'cost' => 8,
         ));
 
         $user = (object)array(
@@ -218,7 +219,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
     public function testUser()
     {
         $auth = new Auth('default', $this->session_mock, $this->storage_mock, array(
-            'phpass_cost' => 8,
+            'cost' => 8,
         ));
 
         $auth->login('Alex', 'Alex');
@@ -243,7 +244,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
     {
         $storage_mock = new StorageDelegateMock();
         $auth = new Auth('default', $this->session_mock, $storage_mock, array(
-            'phpass_cost' => 8,
+            'cost' => 8,
         ));
 
         $auth->login('Alex', 'Alex');
@@ -266,7 +267,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
     {
         $storage_mock = new StorageDelegateMock();
         $auth = new Auth('default', $this->session_mock, $storage_mock, array(
-            'phpass_cost' => 8,
+            'cost' => 8,
         ));
 
         $package = new PackageMock();
@@ -281,7 +282,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
     {
         $storage_mock = new StorageDelegateMock();
         $auth = new Auth('default', $this->session_mock, $storage_mock, array(
-            'phpass_cost' => 8,
+            'cost' => 8,
         ));
 
         $package = 'Solution10\Auth\Tests\Mocks\Package';
@@ -292,14 +293,14 @@ class AuthTest extends PHPUnit_Framework_TestCase
     /**
      * Testing adding a package to a user that doesn't exist
      *
-     * @expectedException        Solution10\Auth\Exception\Package
+     * @expectedException        \Solution10\Auth\Exception\Package
      * @expectedExceptionCode    0
      */
     public function testAddPackageNoUser()
     {
         $storage_mock = new StorageDelegateMock();
         $auth = new Auth('default', $this->session_mock, $storage_mock, array(
-            'phpass_cost' => 8,
+            'cost' => 8,
         ));
 
         $package = 'Solution10\Auth\Tests\Mocks\Package';
@@ -309,14 +310,14 @@ class AuthTest extends PHPUnit_Framework_TestCase
     /**
      * Testing adding a package that doesn't exist
      *
-     * @expectedException        Solution10\Auth\Exception\Package
+     * @expectedException        \Solution10\Auth\Exception\Package
      * @expectedExceptionCode    1
      */
     public function testAddPackageNotFound()
     {
         $storage_mock = new StorageDelegateMock();
         $auth = new Auth('default', $this->session_mock, $storage_mock, array(
-            'phpass_cost' => 8,
+            'cost' => 8,
         ));
 
         $package = 'Solution10\Auth\Tests\Mocks\PackageNotExist';
@@ -326,14 +327,14 @@ class AuthTest extends PHPUnit_Framework_TestCase
     /**
      * Testing adding a package that's not got Package as a parent.
      *
-     * @expectedException        Solution10\Auth\Exception\Package
+     * @expectedException        \Solution10\Auth\Exception\Package
      * @expectedExceptionCode    2
      */
     public function testAddPackageBadLineage()
     {
         $storage_mock = new StorageDelegateMock();
         $auth = new Auth('default', $this->session_mock, $storage_mock, array(
-            'phpass_cost' => 8,
+            'cost' => 8,
         ));
 
         $package = 'Solution10\Auth\Tests\Mocks\StorageDelegate';
@@ -348,10 +349,10 @@ class AuthTest extends PHPUnit_Framework_TestCase
     {
         $storage_mock = new StorageDelegateMock();
         $auth = new Auth('default', $this->session_mock, $storage_mock, array(
-            'phpass_cost' => 8,
+            'cost' => 8,
         ));
 
-        $package = new \Solution10\Auth\Tests\Mocks\Package();
+        $package = new Package();
         $auth->addPackageToUser(1, $package);
 
         // Now remove:
@@ -366,7 +367,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
     {
         $storage_mock = new StorageDelegateMock();
         $auth = new Auth('default', $this->session_mock, $storage_mock, array(
-            'phpass_cost' => 8,
+            'cost' => 8,
         ));
 
         $package = '\Solution10\Auth\Tests\Mocks\Package';
@@ -380,14 +381,14 @@ class AuthTest extends PHPUnit_Framework_TestCase
     /**
      * Testing removing a package from a user that doesn't exist
      *
-     * @expectedException        Solution10\Auth\Exception\Package
+     * @expectedException        \Solution10\Auth\Exception\Package
      * @expectedExceptionCode    0
      */
     public function testRemovePackageNoUser()
     {
         $storage_mock = new StorageDelegateMock();
         $auth = new Auth('default', $this->session_mock, $storage_mock, array(
-            'phpass_cost' => 8,
+            'cost' => 8,
         ));
 
         $package = 'Solution10\Auth\Tests\Mocks\Package';
@@ -402,7 +403,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
     {
         $storage_mock = new StorageDelegateMock();
         $auth = new Auth('default', $this->session_mock, $storage_mock, array(
-            'phpass_cost' => 8,
+            'cost' => 8,
         ));
 
         $package = 'Solution10\Auth\Tests\Mocks\PackageNotFound';
@@ -418,7 +419,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
     {
         $storage_mock = new StorageDelegateMock();
         $auth = new Auth('default', $this->session_mock, $storage_mock, array(
-            'phpass_cost' => 8,
+            'cost' => 8,
         ));
 
         $package = '\Solution10\Auth\Tests\Mocks\Package';
@@ -434,7 +435,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
     {
         $storage_mock = new StorageDelegateMock();
         $auth = new Auth('default', $this->session_mock, $storage_mock, array(
-            'phpass_cost' => 8,
+            'cost' => 8,
         ));
 
         $this->assertEquals($auth->packagesForUser(1), array());
@@ -443,14 +444,14 @@ class AuthTest extends PHPUnit_Framework_TestCase
     /**
      * Tests fetching the packages with unknown user
      *
-     * @expectedException        Solution10\Auth\Exception\Package
+     * @expectedException        \Solution10\Auth\Exception\Package
      * @expectedExceptionCode    0
      */
     public function testUserPackagesNoUser()
     {
         $storage_mock = new StorageDelegateMock();
         $auth = new Auth('default', $this->session_mock, $storage_mock, array(
-            'phpass_cost' => 8,
+            'cost' => 8,
         ));
 
         $auth->packagesForUser(10);
@@ -464,10 +465,10 @@ class AuthTest extends PHPUnit_Framework_TestCase
     {
         $storage_mock = new StorageDelegateMock();
         $auth = new Auth('default', $this->session_mock, $storage_mock, array(
-            'phpass_cost' => 8,
+            'cost' => 8,
         ));
 
-        $package = new \Solution10\Auth\Tests\Mocks\Package();
+        $package = new Package();
         $auth->addPackageToUser(1, $package);
 
         $this->assertTrue($auth->userHasPackage(1, $package));
@@ -480,7 +481,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
     {
         $storage_mock = new StorageDelegateMock();
         $auth = new Auth('default', $this->session_mock, $storage_mock, array(
-            'phpass_cost' => 8,
+            'cost' => 8,
         ));
 
         $package = '\Solution10\Auth\Tests\Mocks\Package';
@@ -496,7 +497,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
     {
         $storage_mock = new StorageDelegateMock();
         $auth = new Auth('default', $this->session_mock, $storage_mock, array(
-            'phpass_cost' => 8,
+            'cost' => 8,
         ));
 
         $package = '\Solution10\Auth\Tests\Mocks\PackageNotFound';
@@ -510,7 +511,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
     {
         $storage_mock = new StorageDelegateMock();
         $auth = new Auth('default', $this->session_mock, $storage_mock, array(
-            'phpass_cost' => 8,
+            'cost' => 8,
         ));
 
         $package = '\Solution10\Auth\Tests\Mocks\Package';
@@ -520,14 +521,14 @@ class AuthTest extends PHPUnit_Framework_TestCase
     /**
      * Test user has package with unknown user
      *
-     * @expectedException        Solution10\Auth\Exception\Package
+     * @expectedException        \Solution10\Auth\Exception\Package
      * @expectedExceptionCode    0
      */
     public function testUserHasPackageNoUser()
     {
         $storage_mock = new StorageDelegateMock();
         $auth = new Auth('default', $this->session_mock, $storage_mock, array(
-            'phpass_cost' => 8,
+            'cost' => 8,
         ));
 
         $auth->userHasPackage(10, 'Doesnt matter');
@@ -536,11 +537,11 @@ class AuthTest extends PHPUnit_Framework_TestCase
     /**
      * Data setup for can() tests
      */
-    protected function can_instance()
+    protected function canInstance()
     {
         $storage_mock = new StorageDelegateMock();
         $auth = new Auth('default', $this->session_mock, $storage_mock, array(
-            'phpass_cost' => 8,
+            'cost' => 8,
         ));
 
         $auth->addPackageToUser(1, '\Solution10\Auth\Tests\Mocks\Package');
@@ -553,95 +554,95 @@ class AuthTest extends PHPUnit_Framework_TestCase
      */
     public function testCanBool()
     {
-        $auth = $this->can_instance();
+        $auth = $this->canInstance();
         $this->assertFalse($auth->userCan(1, 'login'));
     }
 
     public function testCanClosure()
     {
-        $auth = $this->can_instance();
+        $auth = $this->canInstance();
         $this->assertFalse($auth->userCan(1, 'closure', array('arg1', 'arg2')));
     }
 
     public function testCanInstance()
     {
-        $auth = $this->can_instance();
-        $this->assertFalse($auth->userCan(1, 'edit_post'));
+        $auth = $this->canInstance();
+        $this->assertFalse($auth->userCan(1, 'editPost'));
     }
 
     public function testCanStaticString()
     {
-        $auth = $this->can_instance();
-        $this->assertFalse($auth->userCan(1, 'static_string'));
+        $auth = $this->canInstance();
+        $this->assertFalse($auth->userCan(1, 'staticString'));
     }
 
     public function testCanStaticArray()
     {
-        $auth = $this->can_instance();
-        $this->assertFalse($auth->userCan(1, 'static_array'));
+        $auth = $this->canInstance();
+        $this->assertFalse($auth->userCan(1, 'staticArray'));
     }
 
     public function testCanClosureArgs()
     {
-        $auth = $this->can_instance();
+        $auth = $this->canInstance();
         $this->assertEquals('arg1arg2', $auth->userCan(1, 'closure_with_args', array('arg1', 'arg2')));
     }
 
     public function testCanUnknownPermission()
     {
-        $auth = $this->can_instance();
+        $auth = $this->canInstance();
         $this->assertFalse($auth->userCan(1, 'unknown_perm'));
     }
 
     /**
      * Tests userCan() when another package has overidden everything
      */
-    protected function can_higher_instance()
+    protected function canHigherInstance()
     {
-        $auth = $this->can_instance();
+        $auth = $this->canInstance();
         $auth->addPackageToUser(1, 'Solution10\Auth\Tests\Mocks\HigherPackage');
         return $auth;
     }
 
     public function testHigherCanBool()
     {
-        $auth = $this->can_higher_instance();
+        $auth = $this->canHigherInstance();
         $this->assertTrue($auth->userCan(1, 'login'));
     }
 
     public function testHigherCanClosure()
     {
-        $auth = $this->can_higher_instance();
+        $auth = $this->canHigherInstance();
         $this->assertTrue($auth->userCan(1, 'closure', array('arg1', 'arg2')));
     }
 
     public function testHigherCanInstance()
     {
-        $auth = $this->can_higher_instance();
-        $this->assertTrue($auth->userCan(1, 'edit_post'));
+        $auth = $this->canHigherInstance();
+        $this->assertTrue($auth->userCan(1, 'editPost'));
     }
 
     public function testHigherCanStaticString()
     {
-        $auth = $this->can_higher_instance();
-        $this->assertTrue($auth->userCan(1, 'static_string'));
+        $auth = $this->canHigherInstance();
+        $this->assertTrue($auth->userCan(1, 'staticString'));
     }
 
     public function testHigherCanStaticArray()
     {
-        $auth = $this->can_higher_instance();
-        $this->assertTrue($auth->userCan(1, 'static_array'));
+        $auth = $this->canHigherInstance();
+        $this->assertTrue($auth->userCan(1, 'staticArray'));
     }
 
     public function testHigherCanClosureArgs()
     {
-        $auth = $this->can_higher_instance();
+        $auth = $this->canHigherInstance();
         $this->assertEquals('arg2arg1', $auth->userCan(1, 'closure_with_args', array('arg1', 'arg2')));
     }
 
     public function testHigherCanUnknownPermission()
     {
-        $auth = $this->can_higher_instance();
+        $auth = $this->canHigherInstance();
         $this->assertFalse($auth->userCan(1, 'unknown_perm'));
     }
 
@@ -650,14 +651,14 @@ class AuthTest extends PHPUnit_Framework_TestCase
      */
     public function testPartiallyOverloadedPackage()
     {
-        $auth = $this->can_instance();
+        $auth = $this->canInstance();
         $auth->addPackageToUser(1, 'Solution10\Auth\Tests\Mocks\PartialPackage');
 
         $this->assertTrue($auth->userCan(1, 'login'));
         $this->assertTrue($auth->userCan(1, 'closure'));
-        $this->assertTrue($auth->userCan(1, 'edit_post'));
-        $this->assertFalse($auth->userCan(1, 'static_string'));
-        $this->assertFalse($auth->userCan(1, 'static_array'));
+        $this->assertTrue($auth->userCan(1, 'editPost'));
+        $this->assertFalse($auth->userCan(1, 'staticString'));
+        $this->assertFalse($auth->userCan(1, 'staticArray'));
         $this->assertEquals('arg1arg2', $auth->userCan(1, 'closure_with_args', array('arg1', 'arg2')));
         $this->assertFalse($auth->userCan(1, 'unknown_perm'));
     }
@@ -667,7 +668,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
      */
     public function testRebuildingPermissions()
     {
-        $auth = $this->can_instance();
+        $auth = $this->canInstance();
         $this->assertFalse($auth->userCan(1, 'login'));
 
         $auth->addPackageToUser(1, 'Solution10\Auth\Tests\Mocks\HigherPackage');
@@ -682,7 +683,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
      */
     public function testCan()
     {
-        $auth = $this->can_instance();
+        $auth = $this->canInstance();
         $auth->addPackageToUser(1, 'Solution10\Auth\Tests\Mocks\PartialPackage');
 
         $auth->forceLogin(1);
@@ -690,9 +691,9 @@ class AuthTest extends PHPUnit_Framework_TestCase
         // Reusing the partial package tests as they cover everything
         $this->assertTrue($auth->can('login'));
         $this->assertTrue($auth->can('closure'));
-        $this->assertTrue($auth->can('edit_post'));
-        $this->assertFalse($auth->can('static_string'));
-        $this->assertFalse($auth->can('static_array'));
+        $this->assertTrue($auth->can('editPost'));
+        $this->assertFalse($auth->can('staticString'));
+        $this->assertFalse($auth->can('staticArray'));
         $this->assertEquals('arg1arg2', $auth->can('closure_with_args', array('arg1', 'arg2')));
         $this->assertFalse($auth->can('unknown_perm'));
     }
@@ -702,15 +703,15 @@ class AuthTest extends PHPUnit_Framework_TestCase
      */
     public function testCanNotLoggedIn()
     {
-        $auth = $this->can_instance();
+        $auth = $this->canInstance();
         $auth->addPackageToUser(1, 'Solution10\Auth\Tests\Mocks\PartialPackage');
 
         // Reusing the partial package tests as they cover everything
         $this->assertFalse($auth->can('login'));
         $this->assertFalse($auth->can('closure'));
-        $this->assertFalse($auth->can('edit_post'));
-        $this->assertFalse($auth->can('static_string'));
-        $this->assertFalse($auth->can('static_array'));
+        $this->assertFalse($auth->can('editPost'));
+        $this->assertFalse($auth->can('staticString'));
+        $this->assertFalse($auth->can('staticArray'));
         $this->assertFalse($auth->can('closure_with_args', array('arg1', 'arg2')));
         $this->assertFalse($auth->can('unknown_perm'));
     }
@@ -720,7 +721,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
      */
     public function testOverrideBasic()
     {
-        $auth = $this->can_instance();
+        $auth = $this->canInstance();
         $this->assertFalse($auth->userCan(1, 'login'));
         $auth->overridePermissionForUser(1, 'login', true);
         $this->assertTrue($auth->userCan(1, 'login'));
@@ -731,7 +732,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
      */
     public function testResetUserPackages()
     {
-        $auth = $this->can_instance();
+        $auth = $this->canInstance();
         $this->assertFalse($auth->userCan(1, 'login'));
         $auth->overridePermissionForUser(1, 'login', true);
         $this->assertTrue($auth->userCan(1, 'login'));
@@ -740,5 +741,4 @@ class AuthTest extends PHPUnit_Framework_TestCase
         $auth->resetOverridesForUser(1);
         $this->assertFalse($auth->userCan(1, 'login'));
     }
-
 }

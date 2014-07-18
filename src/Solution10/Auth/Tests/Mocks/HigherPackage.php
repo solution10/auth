@@ -2,52 +2,58 @@
 
 namespace Solution10\Auth\Tests\Mocks;
 
+use Solution10\Auth\Package;
+
 /**
  * General Package Mock
  */
-class HigherPackage extends \Solution10\Auth\Package
+class HigherPackage extends Package
 {
-	public function name()
-	{
-		return 'HigherTestPackage';
-	}
+    public function name()
+    {
+        return 'HigherTestPackage';
+    }
 
-	public function init()
-	{
-		$this
-			->precedence(10)
-			->add_rule('login', true)
-			->add_rule('logout', true)
-			->add_rules(array(
-					'view_profile' => true,
-					'view_homepage' => true,
-			  	))
-			->add_callback('edit_post', array($this, 'edit_post'))
-			->add_callbacks(array(
-					'static_string' => __NAMESPACE__ . '\HigherPackage::static_string',
-					'static_array' 	=> array(__NAMESPACE__ . '\HigherPackage', 'static_array'),
-					'closure' => function() {
-						return true;
-					},
-					'closure_with_args' => function($arg1, $arg2) {
-						return $arg2 . $arg1;
-					}
-				));
+    public function init()
+    {
+        $this
+            ->precedence(10)
+            ->addRule('login', true)
+            ->addRule('logout', true)
+            ->addRules(
+                array(
+                    'view_profile'  => true,
+                    'view_homepage' => true,
+                )
+            )
+            ->addCallback('editPost', array($this, 'editPost'))
+            ->addCallbacks(
+                array(
+                    'staticString'     => __NAMESPACE__ . '\HigherPackage::staticString',
+                    'staticArray'      => array(__NAMESPACE__ . '\HigherPackage', 'staticArray'),
+                    'closure'           => function () {
+                        return true;
+                    },
+                    'closure_with_args' => function ($arg1, $arg2) {
+                        return $arg2 . $arg1;
+                    }
+                )
+            );
 
-	}
+    }
 
-	public function edit_post()
-	{
-		return true;
-	}
+    public function editPost()
+    {
+        return true;
+    }
 
-	public static function static_string()
-	{
-		return true;
-	}
+    public static function staticString()
+    {
+        return true;
+    }
 
-	public static function static_array()
-	{
-		return true;
-	}
+    public static function staticArray()
+    {
+        return true;
+    }
 }

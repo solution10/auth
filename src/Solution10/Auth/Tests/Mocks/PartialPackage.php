@@ -2,32 +2,36 @@
 
 namespace Solution10\Auth\Tests\Mocks;
 
+use Solution10\Auth\Package;
+
 /**
  * General Package Mock
  */
-class PartialPackage extends \Solution10\Auth\Package
+class PartialPackage extends Package
 {
-	public function name()
-	{
-		return 'HigherTestPackage';
-	}
+    public function name()
+    {
+        return 'HigherTestPackage';
+    }
 
-	public function init()
-	{
-		$this
-			->precedence(10)
-			->add_rule('login', true)
-			->add_callback('edit_post', array($this, 'edit_post'))
-			->add_callbacks(array(
-					'closure' => function() {
-						return true;
-					},
-				));
+    public function init()
+    {
+        $this
+            ->precedence(10)
+            ->addRule('login', true)
+            ->addCallback('editPost', array($this, 'editPost'))
+            ->addCallbacks(
+                array(
+                    'closure' => function () {
+                        return true;
+                    },
+                )
+            );
 
-	}
+    }
 
-	public function edit_post()
-	{
-		return true;
-	}
+    public function editPost()
+    {
+        return true;
+    }
 }
