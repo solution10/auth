@@ -43,7 +43,15 @@ class PackageTest extends PHPUnit_Framework_TestCase
         );
 
         $retCallbacks = $package->callbacks();
-        $this->assertEquals($callbacks, $retCallbacks);
+
+        // hhvm won't pass this assert as the callback IDs it generates are different.
+        //$this->assertEquals($callbacks, $retCallbacks);
+
+        // So instead, let's check this manually:
+        $this->assertEquals(array_keys($callbacks), array_keys($retCallbacks));
+        $this->assertEquals($callbacks['editPost'], $retCallbacks['editPost']);
+        $this->assertEquals($callbacks['staticString'], $retCallbacks['staticString']);
+        $this->assertEquals($callbacks['staticArray'], $retCallbacks['staticArray']);
 
         // Verify the two closures came through:
         $this->assertFalse($retCallbacks['closure']());
