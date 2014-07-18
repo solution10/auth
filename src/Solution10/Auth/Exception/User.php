@@ -3,17 +3,17 @@
 namespace Solution10\Auth\Exception;
 
 /**
- * Override Exception
+ * User Exception
  *
- * Exception throws when something goes wrong with overriding permissions
- * on a user
+ * Exception throws when something goes wrong with fetching
+ * user information.
  *
  * @package       Solution10
  * @category      Auth
  * @author        Alex Gisby <alex@solution10.com>
  * @license       MIT
  */
-class Override extends \Exception
+class User extends \Exception
 {
-    const UNKNOWN_PERMISSION = 1;
+    const USER_NOT_FOUND = 0;
 }

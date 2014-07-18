@@ -25,7 +25,6 @@ class Session implements SessionDelegate
      */
     public function authRead($instance_name)
     {
-        session_start();
         return (isset($_SESSION['s10auth'][$instance_name])) ?
             $_SESSION['s10auth'][$instance_name] :
             false;
@@ -40,7 +39,6 @@ class Session implements SessionDelegate
      */
     public function authWrite($instance_name, $auth_data)
     {
-        session_start();
         $_SESSION['s10auth'][$instance_name] = $auth_data;
         return true;
     }
@@ -53,7 +51,6 @@ class Session implements SessionDelegate
      */
     public function authDelete($instance_name)
     {
-        session_start();
         unset($_SESSION['s10auth'][$instance_name]);
         return true;
     }

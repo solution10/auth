@@ -14,11 +14,6 @@ class UserRepresentation implements \Solution10\Auth\UserRepresentation
         $this->data = $data;
     }
 
-    public function __get($name)
-    {
-        return (array_key_exists($name, $this->data)) ? $this->data[$name] : null;
-    }
-
     public function id()
     {
         return $this->data['id'];

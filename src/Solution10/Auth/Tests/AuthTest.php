@@ -338,8 +338,8 @@ class AuthTest extends PHPUnit_Framework_TestCase
     /**
      * Testing adding a package to a user that doesn't exist
      *
-     * @expectedException        \Solution10\Auth\Exception\Package
-     * @expectedExceptionCode    0
+     * @expectedException        \Solution10\Auth\Exception\User
+     * @expectedExceptionCode    \Solution10\Auth\Exception\User::USER_NOT_FOUND
      */
     public function testAddPackageNoUser()
     {
@@ -426,8 +426,8 @@ class AuthTest extends PHPUnit_Framework_TestCase
     /**
      * Testing removing a package from a user that doesn't exist
      *
-     * @expectedException        \Solution10\Auth\Exception\Package
-     * @expectedExceptionCode    0
+     * @expectedException        \Solution10\Auth\Exception\User
+     * @expectedExceptionCode    \Solution10\Auth\Exception\User::USER_NOT_FOUND
      */
     public function testRemovePackageNoUser()
     {
@@ -487,8 +487,8 @@ class AuthTest extends PHPUnit_Framework_TestCase
     /**
      * Tests fetching the packages with unknown user
      *
-     * @expectedException        \Solution10\Auth\Exception\Package
-     * @expectedExceptionCode    0
+     * @expectedException        \Solution10\Auth\Exception\User
+     * @expectedExceptionCode    \Solution10\Auth\Exception\User::USER_NOT_FOUND
      */
     public function testUserPackagesNoUser()
     {
@@ -564,8 +564,8 @@ class AuthTest extends PHPUnit_Framework_TestCase
     /**
      * Test user has package with unknown user
      *
-     * @expectedException        \Solution10\Auth\Exception\Package
-     * @expectedExceptionCode    0
+     * @expectedException        \Solution10\Auth\Exception\User
+     * @expectedExceptionCode    \Solution10\Auth\Exception\User::USER_NOT_FOUND
      */
     public function testUserHasPackageNoUser()
     {
@@ -775,8 +775,8 @@ class AuthTest extends PHPUnit_Framework_TestCase
     /**
      * Testing override on a user that doesn't exist
      *
-     * @expectedException       \Solution10\Auth\Exception\Override
-     * @expectedExceptionCode   \Solution10\Auth\Exception\Override::USER_NOT_FOUND
+     * @expectedException       \Solution10\Auth\Exception\User
+     * @expectedExceptionCode   \Solution10\Auth\Exception\User::USER_NOT_FOUND
      */
     public function testOverrideUserNotFound()
     {

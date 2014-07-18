@@ -15,7 +15,6 @@ namespace Solution10\Auth\Exception;
  */
 class Package extends \Exception
 {
-    const USER_NOT_FOUND = 0;
     const PACKAGE_NOT_FOUND = 1;
     const PACKAGE_BAD_LINEAGE = 2;
 }

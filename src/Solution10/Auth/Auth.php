@@ -253,15 +253,15 @@ class Auth
      * if the user is not found.
      *
      * @param   mixed   $user_id    User primary key
-     * @return  mixed   User rep from authFetchUserRepresentation
-     * @throws  Exception\Package
+     * @return  UserRepresentation  User rep from authFetchUserRepresentation
+     * @throws  Exception\User
      * @uses    StorageDelegate
      */
     protected function loadUserRepresentation($user_id)
     {
         $user = $this->storage->authFetchUserRepresentation($this->name(), $user_id);
         if (!$user) {
-            throw new Exception\Package('User ' . $user_id . ' not found.', Exception\Package::USER_NOT_FOUND);
+            throw new Exception\User('User ' . $user_id . ' not found.', Exception\User::USER_NOT_FOUND);
         }
 
         return $user;
@@ -278,6 +278,7 @@ class Auth
      * @param   mixed   $package    String name of package, or instance of package.
      * @return  $this
      * @throws  Exception\Package
+     * @throws  Exception\User
      * @uses    StorageDelegate    Lots.
      */
     public function addPackageToUser($user_id, $package)
@@ -314,6 +315,7 @@ class Auth
      * @param   mixed   $package    String name of the package or instance of the package
      * @return  $this
      * @throws  Exception\Package
+     * @throws  Exception\User
      * @uses    StorageDelegate
      */
     public function removePackageFromUser($user_id, $package)
@@ -339,6 +341,7 @@ class Auth
      * @param   mixed   $user_id    Primary key of the user
      * @return  array
      * @uses    StorageDelegate
+     * @throws  Exception\User
      */
     public function packagesForUser($user_id)
     {
@@ -355,6 +358,7 @@ class Auth
      * @param   mixed   $package    String name of the package ot instance of the package
      * @return  bool
      * @throws  Exception\Package
+     * @throws  Exception\User
      * @uses    StorageDelegate
      */
     public function userHasPackage($user_id, $package)
@@ -380,6 +384,7 @@ class Auth
      *
      * @param   mixed   $user_id    ID of the user to build for
      * @return  void
+     * @throws  Exception\User
      */
     protected function buildPermissionsForUser($user_id)
     {
@@ -464,10 +469,20 @@ class Auth
      * @param   bool    $new_value      New permission. true = yes, false = no.
      * @return  $this
      * @uses    StorageDelegate
+     * @throws  Exception\User
+     * @throws  Exception\Override
      */
     public function overridePermissionForUser($user_id, $permission, $new_value)
     {
         $user = $this->loadUserRepresentation($user_id);
+
+        // Check that there is actually a permission called $permission:
+        if (!array_key_exists($permission, $this->permissions_cache[$user_id])) {
+            throw new Exception\Override(
+                'Unknown permission: '.$permission.' on user id: '.$user_id,
+                Exception\Override::UNKNOWN_PERMISSION
+            );
+        }
 
         if ($this->storage->authOverridePermissionForUser($this->name(), $user, $permission, $new_value)) {
             $this->buildPermissionsForUser($user_id);
@@ -482,6 +497,7 @@ class Auth
      * @param   mixed   $user_id    User ID to change
      * @return  $this
      * @uses    StorageDelegate
+     * @throws  Exception\User
      */
     public function resetOverridesForUser($user_id)
     {
