@@ -2,12 +2,12 @@
 
 namespace Solution10\Auth\Tests\Mocks;
 
-use Solution10\Auth\Package;
+use Solution10\Auth\Package as BasePackage;
 
 /**
  * General Package Mock
  */
-class HigherPackage extends Package
+class HigherPackage extends BasePackage
 {
     public function name()
     {

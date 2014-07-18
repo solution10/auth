@@ -56,8 +56,6 @@ class StorageDelegate implements \Solution10\Auth\StorageDelegate
                 $u['packages'][] = $package;
             }
         }
-
-        return true;
     }
 
 
@@ -71,24 +69,24 @@ class StorageDelegate implements \Solution10\Auth\StorageDelegate
                 foreach ($u['packages'] as $idx => $p) {
                     if ($p->name() === $package->name()) {
                         unset($u['packages'][$idx]);
-                        return true;
                     }
                 }
             }
         }
-
         return true;
     }
 
     public function authFetchPackagesForUser($instance_name, UserRepresentation $user)
     {
+        $packages = array();
         foreach ($this->users as $u) {
             if ($u['id'] == $user->id()) {
-                return $u['packages'];
+                $packages = $u['packages'];
+                break;
             }
         }
 
-        return array();
+        return $packages;
     }
 
     public function authUserHasPackage(
@@ -121,11 +119,12 @@ class StorageDelegate implements \Solution10\Auth\StorageDelegate
 
     public function authFetchOverridesForUser($instance_name, UserRepresentation $user)
     {
+        $overrides = array();
         if (array_key_exists($user->id(), $this->users)) {
-            return $this->users[$user->id()]['overrides'];
+            $overrides = $this->users[$user->id()]['overrides'];
         }
 
-        return array();
+        return $overrides;
     }
 
     public function authResetOverridesForUser($instance_name, UserRepresentation $user)

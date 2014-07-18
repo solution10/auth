@@ -42,7 +42,12 @@ class PackageTest extends PHPUnit_Framework_TestCase
             }
         );
 
-        $this->assertEquals($callbacks, $package->callbacks());
+        $retCallbacks = $package->callbacks();
+        $this->assertEquals($callbacks, $retCallbacks);
+
+        // Verify the two closures came through:
+        $this->assertFalse($retCallbacks['closure']());
+        $this->assertEquals('arg1arg2', $retCallbacks['closure_with_args']('arg1', 'arg2'));
     }
 
     /**

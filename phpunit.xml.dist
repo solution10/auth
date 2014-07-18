@@ -17,4 +17,12 @@
 			<directory>./src/Solution10/Auth/Tests</directory>
 		</testsuite>
 	</testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./src</directory>
+        </whitelist>
+        <blacklist processUncoveredFilesFromWhitelist="true">
+            <directory>./src/Solution10/Auth/Tests</directory>
+        </blacklist>
+    </filter>
 </phpunit>

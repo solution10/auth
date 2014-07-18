@@ -35,6 +35,9 @@ class AuthTest extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
+        // Clear all previous instances:
+        Auth::clearInstances();
+
         $this->session_mock = new SessionDelegateMock();
         $this->storage_mock = new StorageDelegateMock();
         $this->default_instance = new Auth(
@@ -66,6 +69,48 @@ class AuthTest extends PHPUnit_Framework_TestCase
     public function testName()
     {
         $this->assertEquals('default', $this->default_instance->name());
+    }
+
+    /**
+     * Test instance grabbing and naming
+     */
+    public function testInstance()
+    {
+        $session = new SessionDelegateMock();
+        $storage = new StorageDelegateMock();
+        $defaultAuth = new Auth('default', $session, $storage);
+
+        $this->assertEquals($defaultAuth, Auth::instance('default'));
+    }
+
+    /**
+     * Tests non-found instances
+     */
+    public function testUnknownInstance()
+    {
+        $this->assertFalse(Auth::instance('unknown instance name'));
+    }
+
+    /**
+     * Tests fetching all of the instances
+     */
+    public function testInstances()
+    {
+        Auth::clearInstances();
+        $this->assertEquals(array(), Auth::instances());
+
+        $session = new SessionDelegateMock();
+        $storage = new StorageDelegateMock();
+        $defaultAuth = new Auth('default', $session, $storage);
+        $anotherAuth = new Auth('another', $session, $storage);
+
+        $instances = Auth::instances();
+        $this->assertCount(2, $instances);
+        $this->assertArrayHasKey('default', $instances);
+        $this->assertArrayHasKey('another', $instances);
+
+        $this->assertEquals($defaultAuth, $instances['default']);
+        $this->assertEquals($anotherAuth, $instances['another']);
     }
 
     /**
@@ -407,9 +452,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
         ));
 
         $package = 'Solution10\Auth\Tests\Mocks\PackageNotFound';
-        $auth->removePackageFromUser(1, $package);
-
-        $this->assertTrue(true);
+        $this->assertEquals($auth, $auth->removePackageFromUser(1, $package));
     }
 
     /**
@@ -723,8 +766,34 @@ class AuthTest extends PHPUnit_Framework_TestCase
     {
         $auth = $this->canInstance();
         $this->assertFalse($auth->userCan(1, 'login'));
+
         $auth->overridePermissionForUser(1, 'login', true);
+
         $this->assertTrue($auth->userCan(1, 'login'));
+    }
+
+    /**
+     * Testing override on a user that doesn't exist
+     *
+     * @expectedException       \Solution10\Auth\Exception\Override
+     * @expectedExceptionCode   \Solution10\Auth\Exception\Override::USER_NOT_FOUND
+     */
+    public function testOverrideUserNotFound()
+    {
+        $auth = $this->canInstance();
+        $auth->overridePermissionForUser(10, 'login', true);
+    }
+
+    /**
+     * Testing override with a permission the user currently does not know about.
+     *
+     * @expectedException       \Solution10\Auth\Exception\Override
+     * @expectedExceptionCode   \Solution10\Auth\Exception\Override::UNKNOWN_PERMISSION
+     */
+    public function testOverrideUnknownPermission()
+    {
+        $auth = $this->canInstance();
+        $auth->overridePermissionForUser(1, 'bad-permission', true);
     }
 
     /**

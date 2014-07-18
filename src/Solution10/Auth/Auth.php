@@ -60,7 +60,7 @@ class Auth
      * @param   array           $options    Options. Must contain, err, something.
      * @throws
      */
-    public function __construct($name, SessionDelegate $session, StorageDelegate $storage, array $options)
+    public function __construct($name, SessionDelegate $session, StorageDelegate $storage, array $options = array())
     {
         $this->name = $name;
         $this->session = $session;
@@ -105,6 +105,17 @@ class Auth
     public static function instances()
     {
         return self::$instances;
+    }
+
+    /**
+     * Removes all instances from Auth's knowledge. Does *not* log those users out, you'll need
+     * to do that manually.
+     *
+     * This is largely used for unit tests.
+     */
+    public static function clearInstances()
+    {
+        self::$instances = array();
     }
 
     /**
@@ -327,7 +338,6 @@ class Auth
      *
      * @param   mixed   $user_id    Primary key of the user
      * @return  array
-     * @throws  Exception\Package
      * @uses    StorageDelegate
      */
     public function packagesForUser($user_id)
