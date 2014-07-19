@@ -5,7 +5,7 @@
 .idea
 
 # Generated folders
-#api/
+api/
 report/
 vendor/
 

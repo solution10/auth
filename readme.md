@@ -29,7 +29,13 @@ Install via composer:
 
 ## Documentation
 
-See the [docs/ folder in the repo](http://github.com/solution10/auth/tree/master/docs).
+For a user guide: [Check out the Wiki here on GitHub](http://github.com/solution10/auth/wiki).
+
+For API docs, from a checkout of the project:
+
+    $ make
+
+That will dump an api/ folder in the root for you to peruse.
 
 ## License
 

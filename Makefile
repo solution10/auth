@@ -1,6 +1,6 @@
-all: clean apigen
+all: clean apidocs
 
-apigen:
+apidocs:
 	vendor/bin/apigen.php --source src/ --destination api/ --exclude="*/Tests/*"
 
 clean:
