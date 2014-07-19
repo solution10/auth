@@ -1,0 +1,3 @@
+[submodule "wiki"]
+	path = wiki
+	url = git@github.com:Solution10/auth.wiki.git

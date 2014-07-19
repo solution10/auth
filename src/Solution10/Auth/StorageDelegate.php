@@ -20,8 +20,8 @@ interface StorageDelegate
      * Fetches a user by their username. This function should return either an
      * array containing:
      *  - id: the unique identifier for this user
-     *    - username: the username we just looked up
-     *    - password: the hashed version of the users password.
+     *  - username: the username we just looked up
+     *  - password: the hashed version of the users password.
      * If it's a success, or false if there's no user by that name
      *
      * @param   string  $instance_name  Instance name

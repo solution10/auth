@@ -690,6 +690,16 @@ class AuthTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that a higher package setting the same name rule or callback does come through.
+     */
+    public function testJumpingType()
+    {
+        $auth = $this->canHigherInstance();
+        $this->assertTrue($auth->can('jumpTypeCallback'));
+        $this->assertTrue($auth->can('jumpTypeRule'));
+    }
+
+    /**
      * Tests a package that is only partially overloaded
      */
     public function testPartiallyOverloadedPackage()

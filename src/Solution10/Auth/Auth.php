@@ -437,6 +437,10 @@ class Auth
         if (is_bool($perm)) {
             return $perm;
         } else {
+            // Always give the current user as the first arg:
+            $user = $this->loadUserRepresentation($user_id);
+            array_unshift($args, $user);
+
             return call_user_func_array($perm, $args);
         }
     }

@@ -28,11 +28,15 @@ class Package extends BasePackage
                     'closure'           => function () {
                         return false;
                     },
-                    'closure_with_args' => function ($arg1, $arg2) {
+                    'closure_with_args' => function ($user, $arg1, $arg2) {
                         return $arg1 . $arg2;
                     }
                 )
-            );
+            )
+            ->addRule('jumpTypeRule', false)
+            ->addCallback('jumpTypeCallback', function () {
+                return false;
+            });
 
     }
 

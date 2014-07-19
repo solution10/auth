@@ -5,6 +5,7 @@ namespace Solution10\Auth\Tests;
 use PHPUnit_Framework_TestCase;
 use Solution10\Auth\Package as Package;
 use Solution10\Auth\Tests\Mocks\Package as PackageMock;
+use Solution10\Auth\Tests\Mocks\UserRepresentation as UserRepMock;
 
 /**
  * Tests for the Package class
@@ -27,8 +28,6 @@ class PackageTest extends PHPUnit_Framework_TestCase
     {
         // The callbacks are added in the init() of PackageMock.
         $package = new PackageMock();
-        $package->init(); // Init is usually called by Auth, you shouldn't call it
-        // directly from your classes.
 
         $callbacks = array(
             'editPost'         => array($package, 'editPost'),
@@ -37,8 +36,11 @@ class PackageTest extends PHPUnit_Framework_TestCase
             'closure'           => function () {
                 return false;
             },
-            'closure_with_args' => function ($arg1, $arg2) {
+            'closure_with_args' => function ($user, $arg1, $arg2) {
                 return $arg1 . $arg2;
+            },
+            'jumpTypeCallback' => function ($user) {
+                return false;
             }
         );
 
@@ -55,7 +57,7 @@ class PackageTest extends PHPUnit_Framework_TestCase
 
         // Verify the two closures came through:
         $this->assertFalse($retCallbacks['closure']());
-        $this->assertEquals('arg1arg2', $retCallbacks['closure_with_args']('arg1', 'arg2'));
+        $this->assertEquals('arg1arg2', $retCallbacks['closure_with_args'](new UserRepMock(), 'arg1', 'arg2'));
     }
 
     /**
@@ -64,13 +66,13 @@ class PackageTest extends PHPUnit_Framework_TestCase
     public function testAddingRules()
     {
         $package = new PackageMock();
-        $package->init();
 
         $rules = array(
             'login'         => false,
             'logout'        => false,
             'view_profile'  => true,
             'view_homepage' => false,
+            'jumpTypeRule'  => false,
         );
 
         $this->assertEquals($rules, $package->rules());

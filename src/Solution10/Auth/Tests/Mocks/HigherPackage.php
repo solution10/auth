@@ -34,11 +34,15 @@ class HigherPackage extends BasePackage
                     'closure'           => function () {
                         return true;
                     },
-                    'closure_with_args' => function ($arg1, $arg2) {
+                    'closure_with_args' => function ($user, $arg1, $arg2) {
                         return $arg2 . $arg1;
                     }
                 )
-            );
+            )
+            ->addCallback('jumpTypeRule', function () {
+                return true;
+            })
+            ->addRule('jumpTypeCallback', true);
 
     }
 
