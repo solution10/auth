@@ -6,6 +6,7 @@ use PHPUnit_Framework_TestCase;
 use Solution10\Auth\Package as Package;
 use Solution10\Auth\Tests\Mocks\Package as PackageMock;
 use Solution10\Auth\Tests\Mocks\UserRepresentation as UserRepMock;
+use Solution10\Auth\Tests\Mocks\BadPackage;
 
 /**
  * Tests for the Package class
@@ -22,14 +23,19 @@ class PackageTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Testing adding the callbacks
+     * Test that all of the permissions survive initialisation.
      */
-    public function testAddingCallbacks()
+    public function testAddingPermissions()
     {
         // The callbacks are added in the init() of PackageMock.
         $package = new PackageMock();
 
-        $callbacks = array(
+        $packagePerms = array(
+            'login'         => false,
+            'logout'        => false,
+            'view_profile'  => true,
+            'view_homepage' => false,
+            'jumpTypeRule'  => false,
             'editPost'         => array($package, 'editPost'),
             'staticString'     => 'Solution10\Auth\Tests\Mocks\Package::staticString',
             'staticArray'      => array('Solution10\Auth\Tests\Mocks\Package', 'staticArray'),
@@ -44,38 +50,31 @@ class PackageTest extends PHPUnit_Framework_TestCase
             }
         );
 
-        $retCallbacks = $package->callbacks();
+        $perms = $package->definedPermissions();
 
-        // hhvm won't pass this assert as the callback IDs it generates are different.
-        //$this->assertEquals($callbacks, $retCallbacks);
+        // Check that the rules have all come through correctly:
+        foreach ($packagePerms as $name => $value) {
+            $this->assertArrayHasKey($name, $perms);
 
-        // So instead, let's check this manually:
-        $this->assertEquals(array_keys($callbacks), array_keys($retCallbacks));
-        $this->assertEquals($callbacks['editPost'], $retCallbacks['editPost']);
-        $this->assertEquals($callbacks['staticString'], $retCallbacks['staticString']);
-        $this->assertEquals($callbacks['staticArray'], $retCallbacks['staticArray']);
+            if ($packagePerms[$name] instanceof \Closure === false) {
+                $this->assertEquals($packagePerms[$name], $perms[$name]);
+            }
+        }
 
-        // Verify the two closures came through:
-        $this->assertFalse($retCallbacks['closure']());
-        $this->assertEquals('arg1arg2', $retCallbacks['closure_with_args'](new UserRepMock(), 'arg1', 'arg2'));
+        // We have to check these two closures separately to keep HHVM happy when running the tests.
+        $this->assertFalse($perms['closure']());
+        $this->assertEquals('arg1arg2', $perms['closure_with_args'](new UserRepMock(), 'arg1', 'arg2'));
     }
 
     /**
-     * Testing adding rules
+     * Testing adding a permission with a bad value
+     *
+     * @expectedException       \Solution10\Auth\Exception\Package
+     * @expectedExceptionCode   \Solution10\Auth\Exception\Package::BAD_PERMISSION_VALUE
      */
-    public function testAddingRules()
+    public function testAddBadPermissionValue()
     {
-        $package = new PackageMock();
-
-        $rules = array(
-            'login'         => false,
-            'logout'        => false,
-            'view_profile'  => true,
-            'view_homepage' => false,
-            'jumpTypeRule'  => false,
-        );
-
-        $this->assertEquals($rules, $package->rules());
+        new BadPackage();
     }
 
     /**

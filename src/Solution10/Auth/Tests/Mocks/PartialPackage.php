@@ -18,9 +18,9 @@ class PartialPackage extends BasePackage
     {
         $this
             ->precedence(10)
-            ->addRule('login', true)
-            ->addCallback('editPost', array($this, 'editPost'))
-            ->addCallbacks(
+            ->permission('login', true)
+            ->permission('editPost', array($this, 'editPost'))
+            ->permissions(
                 array(
                     'closure' => function () {
                         return true;

@@ -17,14 +17,9 @@ namespace Solution10\Auth;
 abstract class Package
 {
     /**
-     * @var    array    Rules for this package. Rules are straight yes/no responses.
+     * @var     array   Rules and callbacks.
      */
-    protected $rules = array();
-
-    /**
-     * @var    array    Callbacks for this package. Anything callable
-     */
-    protected $callbacks = array();
+    protected $permissions = array();
 
     /**
      * @var   int    Precedence. How important this package is, higher numbers mean more important.
@@ -56,59 +51,37 @@ abstract class Package
      */
 
     /**
-     * Adds a rule into the Package. Call from within init().
+     * Adds a permission to the Package. Call from within init().
      *
-     * @param   string  $name   Name of this rule
-     * @param   bool    $value  Rule value
-     * @return  $this   Chainable
+     * @param   string          $name   Name of this permission
+     * @param   bool|callable   $value  Bool for hard-rules or a callable for something more complex
+     * @return  $this
+     * @throws  Exception\Package
      */
-    protected function addRule($name, $value)
+    protected function permission($name, $value)
     {
-        $this->rules[$name] = (bool)$value;
-        return $this;
-    }
-
-    /**
-     * Adds a whole bunch of rules at once. Array of name => value pairs.
-     * Call from within init()
-     *
-     * @param   array   $rules  Array of rules
-     * @return  $this   Chainable
-     */
-    protected function addRules(array $rules)
-    {
-        foreach ($rules as $name => $value) {
-            $this->addRule($name, $value);
+        if (!is_bool($value) && !is_callable($value)) {
+            throw new Exception\Package(
+                'Value for permission "'.$name.'" is neither boolean nor callable.',
+                Exception\Package::BAD_PERMISSION_VALUE
+            );
         }
 
+        $this->permissions[$name] = $value;
         return $this;
     }
 
     /**
-     * Adds a callback into the Package
+     * Adds a group of permissions at once. key => value pairs.
      *
-     * @param   string      $name       Name of this callback rule
-     * @param   callable    $callback   Callback to add. Anything callable.
-     * @return  $this   Chainable
+     * @param   array   $permissions    Permissions to add
+     * @return  $this
      */
-    protected function addCallback($name, $callback)
+    protected function permissions(array $permissions)
     {
-        $this->callbacks[$name] = $callback;
-        return $this;
-    }
-
-    /**
-     * Adds multiple callbacks into the Package
-     *
-     * @param   array   $callbacks  Callbacks to add
-     * @return  $this   Chainable
-     */
-    protected function addCallbacks(array $callbacks)
-    {
-        foreach ($callbacks as $name => $callback) {
-            $this->addCallback($name, $callback);
+        foreach ($permissions as $name => $value) {
+            $this->permission($name, $value);
         }
-
         return $this;
     }
 
@@ -117,25 +90,14 @@ abstract class Package
      */
 
     /**
-     * Fetching the rules for this package
+     * Returns all of the rules and callbacks defined through 'permission()'.
      *
      * @return  array
      */
-    public function rules()
+    public function definedPermissions()
     {
-        return $this->rules;
+        return $this->permissions;
     }
-
-    /**
-     * Fetching the callbacks
-     *
-     * @return   array
-     */
-    public function callbacks()
-    {
-        return $this->callbacks;
-    }
-
 
     /**
      * ---------------- Precedence --------------------

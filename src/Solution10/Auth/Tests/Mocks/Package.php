@@ -12,16 +12,16 @@ class Package extends BasePackage
     public function init()
     {
         $this
-            ->addRule('login', false)
-            ->addRule('logout', false)
-            ->addRules(
+            ->permission('login', false)
+            ->permission('logout', false)
+            ->permissions(
                 array(
                     'view_profile'  => true,
                     'view_homepage' => false,
                 )
             )
-            ->addCallback('editPost', array($this, 'editPost'))
-            ->addCallbacks(
+            ->permission('editPost', array($this, 'editPost'))
+            ->permissions(
                 array(
                     'staticString'      => __NAMESPACE__ . '\Package::staticString',
                     'staticArray'       => array(__NAMESPACE__ . '\Package', 'staticArray'),
@@ -33,8 +33,8 @@ class Package extends BasePackage
                     }
                 )
             )
-            ->addRule('jumpTypeRule', false)
-            ->addCallback('jumpTypeCallback', function () {
+            ->permission('jumpTypeRule', false)
+            ->permission('jumpTypeCallback', function () {
                 return false;
             });
 

@@ -18,16 +18,16 @@ class HigherPackage extends BasePackage
     {
         $this
             ->precedence(10)
-            ->addRule('login', true)
-            ->addRule('logout', true)
-            ->addRules(
+            ->permission('login', true)
+            ->permission('logout', true)
+            ->permissions(
                 array(
                     'view_profile'  => true,
                     'view_homepage' => true,
                 )
             )
-            ->addCallback('editPost', array($this, 'editPost'))
-            ->addCallbacks(
+            ->permission('editPost', array($this, 'editPost'))
+            ->permissions(
                 array(
                     'staticString'     => __NAMESPACE__ . '\HigherPackage::staticString',
                     'staticArray'      => array(__NAMESPACE__ . '\HigherPackage', 'staticArray'),
@@ -39,10 +39,10 @@ class HigherPackage extends BasePackage
                     }
                 )
             )
-            ->addCallback('jumpTypeRule', function () {
+            ->permission('jumpTypeRule', function () {
                 return true;
             })
-            ->addRule('jumpTypeCallback', true);
+            ->permission('jumpTypeCallback', true);
 
     }
 

@@ -695,8 +695,10 @@ class AuthTest extends PHPUnit_Framework_TestCase
     public function testJumpingType()
     {
         $auth = $this->canHigherInstance();
-        $this->assertTrue($auth->can('jumpTypeCallback'));
-        $this->assertTrue($auth->can('jumpTypeRule'));
+
+        $this->assertTrue($auth->userCan(1, 'jumpTypeCallback'));
+        $this->assertTrue($auth->userCan(1, 'jumpTypeRule'));
+
     }
 
     /**

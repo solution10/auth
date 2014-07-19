@@ -1,4 +1,11 @@
+# Filesystem crap
 .DS_Store
-vendor/
+
+# IDE crap
 .idea
-report
+
+# Generated folders
+#api/
+report/
+vendor/
+

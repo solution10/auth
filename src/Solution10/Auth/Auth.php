@@ -395,12 +395,9 @@ class Auth
 
         $permissions = array();
         foreach ($sorted_packages as $package) {
-            foreach ($package->rules() as $name => $rule) {
+            /* @var $package Package */
+            foreach ($package->definedPermissions() as $name => $rule) {
                 $permissions[$name] = $rule;
-            }
-
-            foreach ($package->callbacks() as $name => $callback) {
-                $permissions[$name] = $callback;
             }
         }
 
