@@ -51,6 +51,20 @@ class AuthTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Returns a Mocked user object
+     *
+     * @param   int     $id     ID
+     * @return  UserRepMock
+     */
+    protected function userMock($id)
+    {
+        return new UserRepMock(array(
+            'id' => $id,
+            'username' => 'User '.$id,
+        ));
+    }
+
+    /**
      * Test construction
      */
     public function testConstructor()
@@ -316,7 +330,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
         ));
 
         $package = new PackageMock();
-        $auth->addPackageToUser(1, $package);
+        $auth->addPackageToUser($this->userMock(1), $package);
         $this->assertEquals($package, $storage_mock->users[1]['packages'][0]);
     }
 
@@ -331,7 +345,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
         ));
 
         $package = 'Solution10\Auth\Tests\Mocks\Package';
-        $auth->addPackageToUser(1, $package);
+        $auth->addPackageToUser($this->userMock(1), $package);
         $this->assertEquals($package, get_class($storage_mock->users[1]['packages'][0]));
     }
 
@@ -349,7 +363,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
         ));
 
         $package = 'Solution10\Auth\Tests\Mocks\Package';
-        $auth->addPackageToUser(10, $package);
+        $auth->addPackageToUser($this->userMock(10), $package);
     }
 
     /**
@@ -366,7 +380,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
         ));
 
         $package = 'Solution10\Auth\Tests\Mocks\PackageNotExist';
-        $auth->addPackageToUser(1, $package);
+        $auth->addPackageToUser($this->userMock(1), $package);
     }
 
     /**
@@ -383,7 +397,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
         ));
 
         $package = 'Solution10\Auth\Tests\Mocks\StorageDelegate';
-        $auth->addPackageToUser(1, $package);
+        $auth->addPackageToUser($this->userMock(1), $package);
     }
 
 
@@ -397,11 +411,13 @@ class AuthTest extends PHPUnit_Framework_TestCase
             'cost' => 8,
         ));
 
+        $user = $this->userMock(1);
+
         $package = new Package();
-        $auth->addPackageToUser(1, $package);
+        $auth->addPackageToUser($user, $package);
 
         // Now remove:
-        $auth->removePackageFromUser(1, $package);
+        $auth->removePackageFromUser($user, $package);
         $this->assertEquals(0, count($storage_mock->users[1]['packages']));
     }
 
@@ -415,11 +431,13 @@ class AuthTest extends PHPUnit_Framework_TestCase
             'cost' => 8,
         ));
 
+        $user = $this->userMock(1);
+
         $package = '\Solution10\Auth\Tests\Mocks\Package';
-        $auth->addPackageToUser(1, $package);
+        $auth->addPackageToUser($user, $package);
 
         // Now remove:
-        $auth->removePackageFromUser(1, $package);
+        $auth->removePackageFromUser($user, $package);
         $this->assertEquals(0, count($storage_mock->users[1]['packages']));
     }
 
@@ -437,7 +455,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
         ));
 
         $package = 'Solution10\Auth\Tests\Mocks\Package';
-        $auth->removePackageFromUser(10, $package);
+        $auth->removePackageFromUser($this->userMock(10), $package);
     }
 
     /**
@@ -452,7 +470,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
         ));
 
         $package = 'Solution10\Auth\Tests\Mocks\PackageNotFound';
-        $this->assertEquals($auth, $auth->removePackageFromUser(1, $package));
+        $this->assertEquals($auth, $auth->removePackageFromUser($this->userMock(1), $package));
     }
 
     /**
@@ -465,10 +483,12 @@ class AuthTest extends PHPUnit_Framework_TestCase
             'cost' => 8,
         ));
 
-        $package = '\Solution10\Auth\Tests\Mocks\Package';
-        $auth->addPackageToUser(1, $package);
+        $user = $this->userMock(1);
 
-        $this->assertEquals($auth->packagesForUser(1), $storage_mock->users[1]['packages']);
+        $package = '\Solution10\Auth\Tests\Mocks\Package';
+        $auth->addPackageToUser($user, $package);
+
+        $this->assertEquals($user, $storage_mock->users[1]['packages']);
     }
 
     /**
@@ -481,7 +501,9 @@ class AuthTest extends PHPUnit_Framework_TestCase
             'cost' => 8,
         ));
 
-        $this->assertEquals($auth->packagesForUser(1), array());
+        $user = $this->userMock(1);
+
+        $this->assertEquals($auth->packagesForUser($user), array());
     }
 
     /**
@@ -497,7 +519,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
             'cost' => 8,
         ));
 
-        $auth->packagesForUser(10);
+        $auth->packagesForUser($this->userMock(10));
     }
 
 
@@ -511,10 +533,12 @@ class AuthTest extends PHPUnit_Framework_TestCase
             'cost' => 8,
         ));
 
-        $package = new Package();
-        $auth->addPackageToUser(1, $package);
+        $user = $this->userMock(1);
 
-        $this->assertTrue($auth->userHasPackage(1, $package));
+        $package = new Package();
+        $auth->addPackageToUser($user, $package);
+
+        $this->assertTrue($auth->userHasPackage($user, $package));
     }
 
     /**
@@ -527,10 +551,12 @@ class AuthTest extends PHPUnit_Framework_TestCase
             'cost' => 8,
         ));
 
-        $package = '\Solution10\Auth\Tests\Mocks\Package';
-        $auth->addPackageToUser(1, $package);
+        $user = $this->userMock(1);
 
-        $this->assertTrue($auth->userHasPackage(1, $package));
+        $package = '\Solution10\Auth\Tests\Mocks\Package';
+        $auth->addPackageToUser($user, $package);
+
+        $this->assertTrue($auth->userHasPackage($user, $package));
     }
 
     /**
@@ -544,7 +570,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
         ));
 
         $package = '\Solution10\Auth\Tests\Mocks\PackageNotFound';
-        $this->assertFalse($auth->userHasPackage(1, $package));
+        $this->assertFalse($auth->userHasPackage($this->userMock(1), $package));
     }
 
     /**
@@ -558,7 +584,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
         ));
 
         $package = '\Solution10\Auth\Tests\Mocks\Package';
-        $this->assertFalse($auth->userHasPackage(1, $package));
+        $this->assertFalse($auth->userHasPackage($this->userMock(1), $package));
     }
 
     /**
@@ -574,7 +600,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
             'cost' => 8,
         ));
 
-        $auth->userHasPackage(10, 'Doesnt matter');
+        $auth->userHasPackage($this->userMock(10), 'Doesnt matter');
     }
 
     /**
@@ -587,7 +613,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
             'cost' => 8,
         ));
 
-        $auth->addPackageToUser(1, '\Solution10\Auth\Tests\Mocks\Package');
+        $auth->addPackageToUser($this->userMock(1), '\Solution10\Auth\Tests\Mocks\Package');
         return $auth;
     }
 
@@ -598,43 +624,43 @@ class AuthTest extends PHPUnit_Framework_TestCase
     public function testCanBool()
     {
         $auth = $this->canInstance();
-        $this->assertFalse($auth->userCan(1, 'login'));
+        $this->assertFalse($auth->userCan($this->userMock(1), 'login'));
     }
 
     public function testCanClosure()
     {
         $auth = $this->canInstance();
-        $this->assertFalse($auth->userCan(1, 'closure', array('arg1', 'arg2')));
+        $this->assertFalse($auth->userCan($this->userMock(1), 'closure', array('arg1', 'arg2')));
     }
 
     public function testCanInstance()
     {
         $auth = $this->canInstance();
-        $this->assertFalse($auth->userCan(1, 'editPost'));
+        $this->assertFalse($auth->userCan($this->userMock(1), 'editPost'));
     }
 
     public function testCanStaticString()
     {
         $auth = $this->canInstance();
-        $this->assertFalse($auth->userCan(1, 'staticString'));
+        $this->assertFalse($auth->userCan($this->userMock(1), 'staticString'));
     }
 
     public function testCanStaticArray()
     {
         $auth = $this->canInstance();
-        $this->assertFalse($auth->userCan(1, 'staticArray'));
+        $this->assertFalse($auth->userCan($this->userMock(1), 'staticArray'));
     }
 
     public function testCanClosureArgs()
     {
         $auth = $this->canInstance();
-        $this->assertEquals('arg1arg2', $auth->userCan(1, 'closure_with_args', array('arg1', 'arg2')));
+        $this->assertEquals('arg1arg2', $auth->userCan($this->userMock(1), 'closure_with_args', array('arg1', 'arg2')));
     }
 
     public function testCanUnknownPermission()
     {
         $auth = $this->canInstance();
-        $this->assertFalse($auth->userCan(1, 'unknown_perm'));
+        $this->assertFalse($auth->userCan($this->userMock(1), 'unknown_perm'));
     }
 
     /**
@@ -643,50 +669,50 @@ class AuthTest extends PHPUnit_Framework_TestCase
     protected function canHigherInstance()
     {
         $auth = $this->canInstance();
-        $auth->addPackageToUser(1, 'Solution10\Auth\Tests\Mocks\HigherPackage');
+        $auth->addPackageToUser($this->userMock(1), 'Solution10\Auth\Tests\Mocks\HigherPackage');
         return $auth;
     }
 
     public function testHigherCanBool()
     {
         $auth = $this->canHigherInstance();
-        $this->assertTrue($auth->userCan(1, 'login'));
+        $this->assertTrue($auth->userCan($this->userMock(1), 'login'));
     }
 
     public function testHigherCanClosure()
     {
         $auth = $this->canHigherInstance();
-        $this->assertTrue($auth->userCan(1, 'closure', array('arg1', 'arg2')));
+        $this->assertTrue($auth->userCan($this->userMock(1), 'closure', array('arg1', 'arg2')));
     }
 
     public function testHigherCanInstance()
     {
         $auth = $this->canHigherInstance();
-        $this->assertTrue($auth->userCan(1, 'editPost'));
+        $this->assertTrue($auth->userCan($this->userMock(1), 'editPost'));
     }
 
     public function testHigherCanStaticString()
     {
         $auth = $this->canHigherInstance();
-        $this->assertTrue($auth->userCan(1, 'staticString'));
+        $this->assertTrue($auth->userCan($this->userMock(1), 'staticString'));
     }
 
     public function testHigherCanStaticArray()
     {
         $auth = $this->canHigherInstance();
-        $this->assertTrue($auth->userCan(1, 'staticArray'));
+        $this->assertTrue($auth->userCan($this->userMock(1), 'staticArray'));
     }
 
     public function testHigherCanClosureArgs()
     {
         $auth = $this->canHigherInstance();
-        $this->assertEquals('arg2arg1', $auth->userCan(1, 'closure_with_args', array('arg1', 'arg2')));
+        $this->assertEquals('arg2arg1', $auth->userCan($this->userMock(1), 'closure_with_args', array('arg1', 'arg2')));
     }
 
     public function testHigherCanUnknownPermission()
     {
         $auth = $this->canHigherInstance();
-        $this->assertFalse($auth->userCan(1, 'unknown_perm'));
+        $this->assertFalse($auth->userCan($this->userMock(1), 'unknown_perm'));
     }
 
     /**
@@ -696,8 +722,10 @@ class AuthTest extends PHPUnit_Framework_TestCase
     {
         $auth = $this->canHigherInstance();
 
-        $this->assertTrue($auth->userCan(1, 'jumpTypeCallback'));
-        $this->assertTrue($auth->userCan(1, 'jumpTypeRule'));
+        $user = $this->userMock(1);
+
+        $this->assertTrue($auth->userCan($user, 'jumpTypeCallback'));
+        $this->assertTrue($auth->userCan($user, 'jumpTypeRule'));
 
     }
 
@@ -707,15 +735,18 @@ class AuthTest extends PHPUnit_Framework_TestCase
     public function testPartiallyOverloadedPackage()
     {
         $auth = $this->canInstance();
-        $auth->addPackageToUser(1, 'Solution10\Auth\Tests\Mocks\PartialPackage');
 
-        $this->assertTrue($auth->userCan(1, 'login'));
-        $this->assertTrue($auth->userCan(1, 'closure'));
-        $this->assertTrue($auth->userCan(1, 'editPost'));
-        $this->assertFalse($auth->userCan(1, 'staticString'));
-        $this->assertFalse($auth->userCan(1, 'staticArray'));
-        $this->assertEquals('arg1arg2', $auth->userCan(1, 'closure_with_args', array('arg1', 'arg2')));
-        $this->assertFalse($auth->userCan(1, 'unknown_perm'));
+        $user = $this->userMock(1);
+
+        $auth->addPackageToUser($this->userMock(1), 'Solution10\Auth\Tests\Mocks\PartialPackage');
+
+        $this->assertTrue($auth->userCan($user, 'login'));
+        $this->assertTrue($auth->userCan($user, 'closure'));
+        $this->assertTrue($auth->userCan($user, 'editPost'));
+        $this->assertFalse($auth->userCan($user, 'staticString'));
+        $this->assertFalse($auth->userCan($user, 'staticArray'));
+        $this->assertEquals('arg1arg2', $auth->userCan($user, 'closure_with_args', array('arg1', 'arg2')));
+        $this->assertFalse($auth->userCan($user, 'unknown_perm'));
     }
 
     /**
@@ -724,13 +755,16 @@ class AuthTest extends PHPUnit_Framework_TestCase
     public function testRebuildingPermissions()
     {
         $auth = $this->canInstance();
-        $this->assertFalse($auth->userCan(1, 'login'));
 
-        $auth->addPackageToUser(1, 'Solution10\Auth\Tests\Mocks\HigherPackage');
-        $this->assertTrue($auth->userCan(1, 'login'));
+        $user = $this->userMock(1);
 
-        $auth->removePackageFromUser(1, 'Solution10\Auth\Tests\Mocks\HigherPackage');
-        $this->assertFalse($auth->userCan(1, 'login'));
+        $this->assertFalse($auth->userCan($user, 'login'));
+
+        $auth->addPackageToUser($user, 'Solution10\Auth\Tests\Mocks\HigherPackage');
+        $this->assertTrue($auth->userCan($user, 'login'));
+
+        $auth->removePackageFromUser($user, 'Solution10\Auth\Tests\Mocks\HigherPackage');
+        $this->assertFalse($auth->userCan($user, 'login'));
     }
 
     /**
@@ -739,7 +773,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
     public function testCan()
     {
         $auth = $this->canInstance();
-        $auth->addPackageToUser(1, 'Solution10\Auth\Tests\Mocks\PartialPackage');
+        $auth->addPackageToUser($this->userMock(1), 'Solution10\Auth\Tests\Mocks\PartialPackage');
 
         $auth->forceLogin(1);
 
@@ -759,7 +793,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
     public function testCanNotLoggedIn()
     {
         $auth = $this->canInstance();
-        $auth->addPackageToUser(1, 'Solution10\Auth\Tests\Mocks\PartialPackage');
+        $auth->addPackageToUser($this->userMock(1), 'Solution10\Auth\Tests\Mocks\PartialPackage');
 
         // Reusing the partial package tests as they cover everything
         $this->assertFalse($auth->can('login'));
@@ -777,11 +811,14 @@ class AuthTest extends PHPUnit_Framework_TestCase
     public function testOverrideBasic()
     {
         $auth = $this->canInstance();
-        $this->assertFalse($auth->userCan(1, 'login'));
 
-        $auth->overridePermissionForUser(1, 'login', true);
+        $user = $this->userMock(1);
 
-        $this->assertTrue($auth->userCan(1, 'login'));
+        $this->assertFalse($auth->userCan($user, 'login'));
+
+        $auth->overridePermissionForUser($user, 'login', true);
+
+        $this->assertTrue($auth->userCan($user, 'login'));
     }
 
     /**
@@ -793,7 +830,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
     public function testOverrideUserNotFound()
     {
         $auth = $this->canInstance();
-        $auth->overridePermissionForUser(10, 'login', true);
+        $auth->overridePermissionForUser($this->userMock(10), 'login', true);
     }
 
     /**
@@ -805,7 +842,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
     public function testOverrideUnknownPermission()
     {
         $auth = $this->canInstance();
-        $auth->overridePermissionForUser(1, 'bad-permission', true);
+        $auth->overridePermissionForUser($this->userMock(1), 'bad-permission', true);
     }
 
     /**
@@ -815,19 +852,21 @@ class AuthTest extends PHPUnit_Framework_TestCase
     {
         $auth = $this->canInstance();
 
+        $user = $this->userMock(1);
+
         // Set up two overrides and then remove just one
         // to verify it's a localised effect
-        $auth->overridePermissionForUser(1, 'login', true);
-        $auth->overridePermissionForUser(1, 'logout', true);
+        $auth->overridePermissionForUser($user, 'login', true);
+        $auth->overridePermissionForUser($user, 'logout', true);
 
-        $this->assertTrue($auth->userCan(1, 'login'));
-        $this->assertTrue($auth->userCan(1, 'logout'));
+        $this->assertTrue($auth->userCan($user, 'login'));
+        $this->assertTrue($auth->userCan($user, 'logout'));
 
         // Now remove just login and see what happens:
-        $auth->removeOverrideForUser(1, 'login');
+        $auth->removeOverrideForUser($user, 'login');
 
-        $this->assertFalse($auth->userCan(1, 'login'));
-        $this->assertTrue($auth->userCan(1, 'logout'));
+        $this->assertFalse($auth->userCan($user, 'login'));
+        $this->assertTrue($auth->userCan($user, 'logout'));
     }
 
     /**
@@ -836,12 +875,15 @@ class AuthTest extends PHPUnit_Framework_TestCase
     public function testResetUserPackages()
     {
         $auth = $this->canInstance();
-        $this->assertFalse($auth->userCan(1, 'login'));
-        $auth->overridePermissionForUser(1, 'login', true);
-        $this->assertTrue($auth->userCan(1, 'login'));
+
+        $user = $this->userMock(1);
+
+        $this->assertFalse($auth->userCan($user, 'login'));
+        $auth->overridePermissionForUser($user, 'login', true);
+        $this->assertTrue($auth->userCan($user, 'login'));
 
         // Now reset and check it works:
-        $auth->resetOverridesForUser(1);
-        $this->assertFalse($auth->userCan(1, 'login'));
+        $auth->resetOverridesForUser($user);
+        $this->assertFalse($auth->userCan($user, 'login'));
     }
 }

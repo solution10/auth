@@ -234,10 +234,11 @@ class Auth
         }
 
         if (!isset($this->user)) {
-            $this->user = $this->storage->authFetchUserRepresentation(
-                $this->name(),
-                $this->session->authRead($this->name())
-            );
+            try {
+                $this->user = $this->loadUserRepresentation($this->session->authRead($this->name()));
+            } catch (Exception\User $e) {
+                $this->user = false;
+            }
         }
 
         // If the user is false, we've got a bad-un, so kill the session:
@@ -259,12 +260,15 @@ class Auth
      */
     protected function loadUserRepresentation($user_id)
     {
-        $user = $this->storage->authFetchUserRepresentation($this->name(), $user_id);
-        if (!$user) {
+        if (!isset($this->user)) {
+            $this->user = $this->storage->authFetchUserRepresentation($this->name(), $user_id);
+        }
+
+        if (!$this->user) {
             throw new Exception\User('User ' . $user_id . ' not found.', Exception\User::USER_NOT_FOUND);
         }
 
-        return $user;
+        return $this->user;
     }
 
     /**
@@ -274,17 +278,15 @@ class Auth
     /**
      * Adds a package to a user
      *
-     * @param   mixed   $user_id    Primary key of the user
-     * @param   mixed   $package    String name of package, or instance of package.
+     * @param   UserRepresentation  $user       Primary key of the user
+     * @param   mixed               $package    String name of package, or instance of package.
      * @return  $this
      * @throws  Exception\Package
      * @throws  Exception\User
      * @uses    StorageDelegate    Lots.
      */
-    public function addPackageToUser($user_id, $package)
+    public function addPackageToUser(UserRepresentation $user, $package)
     {
-        $user = $this->loadUserRepresentation($user_id);
-
         // Check that the package exists:
         if (is_string($package) && class_exists($package)) {
             $package = new $package();
@@ -303,7 +305,7 @@ class Auth
         $this->storage->authAddPackageToUser($this->name(), $user, $package);
 
         // And rebuild the permissions:
-        $this->buildPermissionsForUser($user_id);
+        $this->buildPermissionsForUser($user);
 
         return $this;
     }
@@ -311,17 +313,15 @@ class Auth
     /**
      * Removing a package from a user
      *
-     * @param   mixed   $user_id    Primary Key of the user
-     * @param   mixed   $package    String name of the package or instance of the package
+     * @param   UserRepresentation  $user        Primary Key of the user
+     * @param   mixed               $package    String name of the package or instance of the package
      * @return  $this
      * @throws  Exception\Package
      * @throws  Exception\User
      * @uses    StorageDelegate
      */
-    public function removePackageFromUser($user_id, $package)
+    public function removePackageFromUser(UserRepresentation $user, $package)
     {
-        $user = $this->loadUserRepresentation($user_id);
-
         // We kind of don't care if the package doesn't exist, so even if it doesn't,
         // just palm it off on the StorageDelegate and let it fail silently.
         if ((is_string($package) && class_exists($package)) || $package instanceof Package) {
@@ -329,7 +329,7 @@ class Auth
             $this->storage->authRemovePackageFromUser($this->name(), $user, $package);
 
             // And rebuild the permissions:
-            $this->buildPermissionsForUser($user_id);
+            $this->buildPermissionsForUser($user);
         }
 
         return $this;
@@ -338,14 +338,13 @@ class Auth
     /**
      * Fetches the packages for a user.
      *
-     * @param   mixed   $user_id    Primary key of the user
+     * @param   UserRepresentation  $user    Primary key of the user
      * @return  array
      * @uses    StorageDelegate
      * @throws  Exception\User
      */
-    public function packagesForUser($user_id)
+    public function packagesForUser(UserRepresentation $user)
     {
-        $user = $this->loadUserRepresentation($user_id);
         return (array)$this->storage->authFetchPackagesForUser($this->name(), $user);
     }
 
@@ -354,17 +353,15 @@ class Auth
      * Checks to see if a user has a package or not. If package is not a valid Package
      * or doesn't exist, function will fail silently and return false
      *
-     * @param   mixed   $user_id    Primary key of the user
-     * @param   mixed   $package    String name of the package ot instance of the package
+     * @param   UserRepresentation  $user       Primary key of the user
+     * @param   mixed               $package    String name of the package ot instance of the package
      * @return  bool
      * @throws  Exception\Package
      * @throws  Exception\User
      * @uses    StorageDelegate
      */
-    public function userHasPackage($user_id, $package)
+    public function userHasPackage(UserRepresentation $user, $package)
     {
-        $user = $this->loadUserRepresentation($user_id);
-
         if ((is_string($package) && class_exists($package)) || $package instanceof Package) {
             $package = (is_object($package)) ? $package : new $package();
             return $this->storage->authUserHasPackage($this->name(), $user, $package);
@@ -382,14 +379,14 @@ class Auth
      * Builds up the permissions for a user by looping through,
      * taking on the highest precedence of each tier.
      *
-     * @param   mixed   $user_id    ID of the user to build for
+     * @param   UserRepresentation   $user    ID of the user to build for
      * @return  void
      * @throws  Exception\User
      */
-    protected function buildPermissionsForUser($user_id)
+    protected function buildPermissionsForUser(UserRepresentation $user)
     {
         // Make use of Collection to do some clever sorting:
-        $all_packages = $this->packagesForUser($user_id);
+        $all_packages = $this->packagesForUser($user);
         $sorted_packages = new Collection($all_packages);
         $sorted_packages->sortByMember('precedence');
 
@@ -402,7 +399,6 @@ class Auth
         }
 
         // And now process any overrides that this user has:
-        $user = $this->loadUserRepresentation($user_id);
         $overrides = $this->storage->authFetchOverridesForUser($this->name(), $user);
         foreach ($overrides as $permission => $new_value) {
             if (array_key_exists($permission, $permissions)) {
@@ -410,32 +406,31 @@ class Auth
             }
         }
 
-        $this->permissions_cache[$user_id] = $permissions;
+        $this->permissions_cache[$user->id()] = $permissions;
     }
 
     /**
      * Can function. The most useful function in the whole thing
      *
-     * @param   mixed   $user_id        User ID
-     * @param   string  $permission     Permission name to check in the Package
-     * @param   array   $args           Arguments to pass to a package callback
+     * @param   UserRepresentation  $user           User ID
+     * @param   string              $permission     Permission name to check in the Package
+     * @param   array               $args           Arguments to pass to a package callback
      * @return  bool    true = Yes they can. false = no they can't
      */
-    public function userCan($user_id, $permission, array $args = array())
+    public function userCan(UserRepresentation $user, $permission, array $args = array())
     {
-        if (!array_key_exists($permission, $this->permissions_cache[$user_id])) {
+        if (!array_key_exists($permission, $this->permissions_cache[$user->id()])) {
             // No permission found. To be safe, we always return false in these
             // cases.
             return false;
         }
 
-        $perm = $this->permissions_cache[$user_id][$permission];
+        $perm = $this->permissions_cache[$user->id()][$permission];
 
         if (is_bool($perm)) {
             return $perm;
         } else {
             // Always give the current user as the first arg:
-            $user = $this->loadUserRepresentation($user_id);
             array_unshift($args, $user);
 
             return call_user_func_array($perm, $args);
@@ -456,7 +451,7 @@ class Auth
             return false;
         }
 
-        return $this->userCan($this->session->authRead($this->name()), $permission, $args);
+        return $this->userCan($this->user(), $permission, $args);
     }
 
 
@@ -465,28 +460,26 @@ class Auth
      * a Package for a specific user, for instance, allowing a regular user to blog
      * or revoking someone's commenting rights, all without setting up a new package.
      *
-     * @param   mixed   $user_id        User ID to change
-     * @param   string  $permission     Permission name to change
-     * @param   bool    $new_value      New permission. true = yes, false = no.
+     * @param   UserRepresentation      $user           User ID to change
+     * @param   string                  $permission     Permission name to change
+     * @param   bool                    $new_value      New permission. true = yes, false = no.
      * @return  $this
      * @uses    StorageDelegate
      * @throws  Exception\User
      * @throws  Exception\Override
      */
-    public function overridePermissionForUser($user_id, $permission, $new_value)
+    public function overridePermissionForUser(UserRepresentation $user, $permission, $new_value)
     {
-        $user = $this->loadUserRepresentation($user_id);
-
         // Check that there is actually a permission called $permission:
-        if (!array_key_exists($permission, $this->permissions_cache[$user_id])) {
+        if (!array_key_exists($permission, $this->permissions_cache[$user->id()])) {
             throw new Exception\Override(
-                'Unknown permission: '.$permission.' on user id: '.$user_id,
+                'Unknown permission: '.$permission.' on user id: '.$user,
                 Exception\Override::UNKNOWN_PERMISSION
             );
         }
 
         if ($this->storage->authOverridePermissionForUser($this->name(), $user, $permission, $new_value)) {
-            $this->buildPermissionsForUser($user_id);
+            $this->buildPermissionsForUser($user);
         }
 
         return $this;
@@ -495,18 +488,18 @@ class Auth
     /**
      * Removes any override on the given permission.
      *
-     * @param   mixed   $user_id
-     * @param   string  $permission     Permission to remove
+     * @param   UserRepresentation      $user
+     * @param   string                  $permission     Permission to remove
      * @return  $this
      * @uses    StorageDelegate
      * @throws  Exception\User
      */
-    public function removeOverrideForUser($user_id, $permission)
+    public function removeOverrideForUser(UserRepresentation $user, $permission)
     {
-        $user = $this->loadUserRepresentation($user_id);
+        $user = $this->loadUserRepresentation($user);
 
         if ($this->storage->authRemoveOverrideForUser($this->name(), $user, $permission)) {
-            $this->buildPermissionsForUser($user_id);
+            $this->buildPermissionsForUser($user);
         }
 
         return $this;
@@ -515,16 +508,15 @@ class Auth
     /**
      * Removes the overrides for a user, returning them to package settings.
      *
-     * @param   mixed   $user_id    User ID to change
+     * @param   UserRepresentation      $user    User ID to change
      * @return  $this
      * @uses    StorageDelegate
      * @throws  Exception\User
      */
-    public function resetOverridesForUser($user_id)
+    public function resetOverridesForUser(UserRepresentation $user)
     {
-        $user = $this->loadUserRepresentation($user_id);
         if ($this->storage->authResetOverridesForUser($this->name(), $user)) {
-            $this->buildPermissionsForUser($user_id);
+            $this->buildPermissionsForUser($user);
         }
 
         return $this;
