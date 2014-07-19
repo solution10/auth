@@ -809,6 +809,28 @@ class AuthTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Testing removing an override
+     */
+    public function testRemoveOverride()
+    {
+        $auth = $this->canInstance();
+
+        // Set up two overrides and then remove just one
+        // to verify it's a localised effect
+        $auth->overridePermissionForUser(1, 'login', true);
+        $auth->overridePermissionForUser(1, 'logout', true);
+
+        $this->assertTrue($auth->userCan(1, 'login'));
+        $this->assertTrue($auth->userCan(1, 'logout'));
+
+        // Now remove just login and see what happens:
+        $auth->removeOverrideForUser(1, 'login');
+
+        $this->assertFalse($auth->userCan(1, 'login'));
+        $this->assertTrue($auth->userCan(1, 'logout'));
+    }
+
+    /**
      * Testing resetting the packages on a user after making changes
      */
     public function testResetUserPackages()

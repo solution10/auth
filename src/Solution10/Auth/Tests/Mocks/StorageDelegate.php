@@ -127,6 +127,14 @@ class StorageDelegate implements \Solution10\Auth\StorageDelegate
         return $overrides;
     }
 
+    public function authRemoveOverrideForUser($instance_name, UserRepresentation $user, $permission)
+    {
+        if (array_key_exists($permission, $this->users[$user->id()]['overrides'])) {
+            unset($this->users[$user->id()]['overrides'][$permission]);
+        }
+        return true;
+    }
+
     public function authResetOverridesForUser($instance_name, UserRepresentation $user)
     {
         if (array_key_exists($user->id(), $this->users)) {

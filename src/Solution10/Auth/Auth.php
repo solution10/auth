@@ -493,6 +493,26 @@ class Auth
     }
 
     /**
+     * Removes any override on the given permission.
+     *
+     * @param   mixed   $user_id
+     * @param   string  $permission     Permission to remove
+     * @return  $this
+     * @uses    StorageDelegate
+     * @throws  Exception\User
+     */
+    public function removeOverrideForUser($user_id, $permission)
+    {
+        $user = $this->loadUserRepresentation($user_id);
+
+        if ($this->storage->authRemoveOverrideForUser($this->name(), $user, $permission)) {
+            $this->buildPermissionsForUser($user_id);
+        }
+
+        return $this;
+    }
+
+    /**
      * Removes the overrides for a user, returning them to package settings.
      *
      * @param   mixed   $user_id    User ID to change
