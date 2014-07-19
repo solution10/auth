@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="generator" content="ApiGen 2.8.0">
+
+	<title>Class Solution10\Auth\Package</title>
+
+	<script type="text/javascript" src="resources/combined.js?3840683270"></script>
+	<script type="text/javascript" src="elementlist.js?470831282"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+			<h3>Namespaces</h3>
+			<ul>
+				<li><a href="namespace-PHP.html">PHP</a>
+						</li>
+				<li class="active"><a href="namespace-Solution10.html">Solution10<span></span></a>
+						<ul>
+				<li class="active"><a href="namespace-Solution10.Auth.html">Auth<span></span></a>
+						<ul>
+				<li><a href="namespace-Solution10.Auth.Driver.html">Driver</a>
+						</li>
+				<li><a href="namespace-Solution10.Auth.Exception.html">Exception</a>
+						</li>
+							</ul></li></ul></li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-Solution10.Auth.Auth.html">Auth</a></li>
+				<li class="active"><a href="class-Solution10.Auth.Package.html">Package</a></li>
+			</ul>
+
+			<h3>Interfaces</h3>
+			<ul>
+				<li><a href="class-Solution10.Auth.SessionDelegate.html">SessionDelegate</a></li>
+				<li><a href="class-Solution10.Auth.StorageDelegate.html">StorageDelegate</a></li>
+				<li><a href="class-Solution10.Auth.UserRepresentation.html">UserRepresentation</a></li>
+			</ul>
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text">
+		<input type="submit" value="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-Solution10.Auth.html" title="Summary of Solution10\Auth"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class Package</h1>
+
+
+	<div class="description">
+	
+<p>Package Base Class</p>
+
+<p>Packages are groups of permissions which control what the user can and cannot
+do. Packages contain rules and callbacks which can decide what the user does.
+You can also edit the package on a per-user basis.</p>
+
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="info">
+		<b>Abstract</b><br>
+		
+		<b>Namespace:</b> <a href="namespace-Solution10.html">Solution10</a>\<a href="namespace-Solution10.Auth.html">Auth</a><br>
+		<b>Package:</b> Solution10<br>
+
+				<b>Category:</b>
+				Auth<br>
+				<b>License:</b>
+				<a href="MIT">MIT</a><br>
+				<b>Author:</b>
+				Alex Gisby &lt;<a
+href="mailto:alex&#64;solution10.com">alex&#64;<!-- -->solution10.com</a>&gt;<br>
+		<b>Located at</b> <a href="source-class-Solution10.Auth.Package.html#5-159" title="Go to source code">Solution10/Auth/Package.php</a><br>
+	</div>
+
+
+
+	<table class="summary" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="init" id="_init">
+
+		<td class="attributes"><code>
+			abstract public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_init">#</a>
+		<code><a href="source-class-Solution10.Auth.Package.html#34-37" title="Go to source code">init</a>( )</code>
+
+		<div class="description short">
+			
+<p>Your package MUST implement init() to assign its rules and callbacks.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Your package MUST implement init() to assign its rules and callbacks.</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="name" id="_name">
+
+		<td class="attributes"><code>
+			abstract public 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_name">#</a>
+		<code><a href="source-class-Solution10.Auth.Package.html#39-44" title="Go to source code">name</a>( )</code>
+
+		<div class="description short">
+			
+<p>Your package must return a name for itself.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Your package must return a name for itself.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-Solution10.Auth.Package.html#46-52" title="Go to source code">__construct</a>( )</code>
+
+		<div class="description short">
+			
+<p>Constructor calls init()</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Constructor calls init()</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="addRule" id="_addRule">
+
+		<td class="attributes"><code>
+			 protected 
+			mixed
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_addRule">#</a>
+		<code><a href="source-class-Solution10.Auth.Package.html#58-69" title="Go to source code">addRule</a>( <span>string <var>$name</var></span>, <span>boolean <var>$value</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Adds a rule into the Package. Call from within init().</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Adds a rule into the Package. Call from within init().</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$name</var></dt>
+					<dd><code>string</code><br>$name Name of this rule</dd>
+					<dt><var>$value</var></dt>
+					<dd><code>boolean</code><br>$value Rule value</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>mixed</code><br>$this Chainable<br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="addRules" id="_addRules">
+
+		<td class="attributes"><code>
+			 protected 
+			mixed
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_addRules">#</a>
+		<code><a href="source-class-Solution10.Auth.Package.html#71-85" title="Go to source code">addRules</a>( <span>array <var>$rules</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Adds a whole bunch of rules at once. Array of name =&gt; value pairs. Call
+from within init()</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Adds a whole bunch of rules at once. Array of name =&gt; value pairs. Call
+from within init()</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$rules</var></dt>
+					<dd><code>array</code><br>$rules Array of rules</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>mixed</code><br>$this Chainable<br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="addCallback" id="_addCallback">
+
+		<td class="attributes"><code>
+			 protected 
+			mixed
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_addCallback">#</a>
+		<code><a href="source-class-Solution10.Auth.Package.html#87-98" title="Go to source code">addCallback</a>( <span>string <var>$name</var></span>, <span>callable <var>$callback</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Adds a callback into the Package</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Adds a callback into the Package</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$name</var></dt>
+					<dd><code>string</code><br>$name Name of this callback rule</dd>
+					<dt><var>$callback</var></dt>
+					<dd><code>callable</code><br>$callback Callback to add. Anything callable.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>mixed</code><br>$this Chainable<br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="addCallbacks" id="_addCallbacks">
+
+		<td class="attributes"><code>
+			 protected 
+			mixed
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_addCallbacks">#</a>
+		<code><a href="source-class-Solution10.Auth.Package.html#100-113" title="Go to source code">addCallbacks</a>( <span>array <var>$callbacks</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Adds multiple callbacks into the Package</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Adds multiple callbacks into the Package</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$callbacks</var></dt>
+					<dd><code>array</code><br>$callbacks Callbacks to add</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>mixed</code><br>$this Chainable<br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="rules" id="_rules">
+
+		<td class="attributes"><code>
+			 public 
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_rules">#</a>
+		<code><a href="source-class-Solution10.Auth.Package.html#119-127" title="Go to source code">rules</a>( )</code>
+
+		<div class="description short">
+			
+<p>Fetching the rules for this package</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Fetching the rules for this package</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array</code><br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="callbacks" id="_callbacks">
+
+		<td class="attributes"><code>
+			 public 
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_callbacks">#</a>
+		<code><a href="source-class-Solution10.Auth.Package.html#129-137" title="Go to source code">callbacks</a>( )</code>
+
+		<div class="description short">
+			
+<p>Fetching the callbacks</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Fetching the callbacks</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array</code><br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="precedence" id="_precedence">
+
+		<td class="attributes"><code>
+			 public 
+			integer|<code><a href="class-Solution10.Auth.Package.html">Solution10\Auth\Package</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_precedence">#</a>
+		<code><a href="source-class-Solution10.Auth.Package.html#144-158" title="Go to source code">precedence</a>( <span>integer <var>$precedence</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Gets / sets the precedence of the package.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Gets / sets the precedence of the package.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$precedence</var></dt>
+					<dd><code>integer</code><br>$precedence</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>integer|<code><a href="class-Solution10.Auth.Package.html">Solution10\Auth\Package</a></code></code><br>$this<br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+	<table class="summary" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="rules" id="$rules">
+		<td class="attributes"><code>
+			protected  
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Solution10.Auth.Package.html#19-22" title="Go to source code"><var>$rules</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">array</span>()</code></td>
+		<td class="description"><div>
+			<a href="#$rules" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Rules for this package. Rules are straight yes/no responses.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Rules for this package. Rules are straight yes/no responses.</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="callbacks" id="$callbacks">
+		<td class="attributes"><code>
+			protected  
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Solution10.Auth.Package.html#24-27" title="Go to source code"><var>$callbacks</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">array</span>()</code></td>
+		<td class="description"><div>
+			<a href="#$callbacks" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Callbacks for this package. Anything callable</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Callbacks for this package. Anything callable</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="precedence" id="$precedence">
+		<td class="attributes"><code>
+			protected  
+			integer
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-Solution10.Auth.Package.html#29-32" title="Go to source code"><var>$precedence</var></a>
+		</td>
+		<td class="value"><code><span class="php-num">0</span></code></td>
+		<td class="description"><div>
+			<a href="#$precedence" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Precedence. How important this package is, higher numbers mean more
+important.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Precedence. How important this package is, higher numbers mean more
+important.</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>

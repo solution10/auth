@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="generator" content="ApiGen 2.8.0">
+
+	<title>Interface Solution10\Auth\StorageDelegate</title>
+
+	<script type="text/javascript" src="resources/combined.js?3840683270"></script>
+	<script type="text/javascript" src="elementlist.js?470831282"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+			<h3>Namespaces</h3>
+			<ul>
+				<li><a href="namespace-PHP.html">PHP</a>
+						</li>
+				<li class="active"><a href="namespace-Solution10.html">Solution10<span></span></a>
+						<ul>
+				<li class="active"><a href="namespace-Solution10.Auth.html">Auth<span></span></a>
+						<ul>
+				<li><a href="namespace-Solution10.Auth.Driver.html">Driver</a>
+						</li>
+				<li><a href="namespace-Solution10.Auth.Exception.html">Exception</a>
+						</li>
+							</ul></li></ul></li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-Solution10.Auth.Auth.html">Auth</a></li>
+				<li><a href="class-Solution10.Auth.Package.html">Package</a></li>
+			</ul>
+
+			<h3>Interfaces</h3>
+			<ul>
+				<li><a href="class-Solution10.Auth.SessionDelegate.html">SessionDelegate</a></li>
+				<li class="active"><a href="class-Solution10.Auth.StorageDelegate.html">StorageDelegate</a></li>
+				<li><a href="class-Solution10.Auth.UserRepresentation.html">UserRepresentation</a></li>
+			</ul>
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text">
+		<input type="submit" value="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-Solution10.Auth.html" title="Summary of Solution10\Auth"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Interface StorageDelegate</h1>
+
+
+	<div class="description">
+	
+<p>Storage Delegate Interface</p>
+
+<p>Put simply, this is the class that reads and writes from the database on
+behalf of Auth. Means you could use MySQL, Mongo, flat files, whatever you want.
+Agnosticism for the win!</p>
+
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		<b>Namespace:</b> <a href="namespace-Solution10.html">Solution10</a>\<a href="namespace-Solution10.Auth.html">Auth</a><br>
+		<b>Package:</b> Solution10<br>
+
+				<b>Category:</b>
+				Auth<br>
+				<b>License:</b>
+				<a href="MIT">MIT</a><br>
+				<b>Author:</b>
+				Alex Gisby &lt;<a
+href="mailto:alex&#64;solution10.com">alex&#64;<!-- -->solution10.com</a>&gt;<br>
+				<b>Used by:</b>
+				<code><code><a href="class-Solution10.Auth.Auth.html#_loadUserRepresentation">Solution10\Auth\Auth::loadUserRepresentation()</a></code></code> <br>
+				<b>Used by:</b>
+				<code><code><a href="class-Solution10.Auth.Auth.html#_addPackageToUser">Solution10\Auth\Auth::addPackageToUser()</a></code></code> Lots.<br>
+				<b>Used by:</b>
+				<code><code><a href="class-Solution10.Auth.Auth.html#_removePackageFromUser">Solution10\Auth\Auth::removePackageFromUser()</a></code></code> <br>
+				<b>Used by:</b>
+				<code><code><a href="class-Solution10.Auth.Auth.html#_packagesForUser">Solution10\Auth\Auth::packagesForUser()</a></code></code> <br>
+				<b>Used by:</b>
+				<code><code><a href="class-Solution10.Auth.Auth.html#_userHasPackage">Solution10\Auth\Auth::userHasPackage()</a></code></code> <br>
+				<b>Used by:</b>
+				<code><code><a href="class-Solution10.Auth.Auth.html#_overridePermissionForUser">Solution10\Auth\Auth::overridePermissionForUser()</a></code></code> <br>
+				<b>Used by:</b>
+				<code><code><a href="class-Solution10.Auth.Auth.html#_resetOverridesForUser">Solution10\Auth\Auth::resetOverridesForUser()</a></code></code> <br>
+		<b>Located at</b> <a href="source-class-Solution10.Auth.StorageDelegate.html#5-115" title="Go to source code">Solution10/Auth/StorageDelegate.php</a><br>
+	</div>
+
+
+
+	<table class="summary" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="authFetchUserByUsername" id="_authFetchUserByUsername">
+
+		<td class="attributes"><code>
+			 public 
+			array|boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_authFetchUserByUsername">#</a>
+		<code><a href="source-class-Solution10.Auth.StorageDelegate.html#19-31" title="Go to source code">authFetchUserByUsername</a>( <span>string <var>$instance_name</var></span>, <span>string <var>$username</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Fetches a user by their username. This function should return either an array
+containing:<br />
+- id: the unique identifier for this user<br />
+- username: the username we just looked up<br />
+- password: the hashed version of the users password. If it's a success, or
+false if there's no user by that name</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Fetches a user by their username. This function should return either an array
+containing: - id: the unique identifier for this user - username: the username
+we just looked up - password: the hashed version of the users password. If it's
+a success, or false if there's no user by that name</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$instance_name</var></dt>
+					<dd><code>string</code><br>$instance_name Instance name</dd>
+					<dt><var>$username</var></dt>
+					<dd><code>string</code><br>$username Username to search for</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array|boolean</code><br>
+				</div>
+
+
+				<h4>Used by</h4>
+				<div class="list">
+						<code><code><a href="class-Solution10.Auth.Auth.html#_login">Solution10\Auth\Auth::login()</a></code></code> <br>
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="authFetchUserRepresentation" id="_authFetchUserRepresentation">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-Solution10.Auth.UserRepresentation.html">Solution10\Auth\UserRepresentation</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_authFetchUserRepresentation">#</a>
+		<code><a href="source-class-Solution10.Auth.StorageDelegate.html#33-41" title="Go to source code">authFetchUserRepresentation</a>( <span>string <var>$instance_name</var></span>, <span>integer <var>$user_id</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Fetches the full user representation of a given ID. ie your active record
+instance or the like.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Fetches the full user representation of a given ID. ie your active record
+instance or the like.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$instance_name</var></dt>
+					<dd><code>string</code><br>$instance_name Instance name</dd>
+					<dt><var>$user_id</var></dt>
+					<dd><code>integer</code><br>$user_id ID of the logged in user</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-Solution10.Auth.UserRepresentation.html">Solution10\Auth\UserRepresentation</a></code></code><br>The representation you return must implement the UserRepresentation interface.<br>
+				</div>
+
+
+				<h4>Used by</h4>
+				<div class="list">
+						<code><code><a href="class-Solution10.Auth.Auth.html#_user">Solution10\Auth\Auth::user()</a></code></code> <br>
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="authAddPackageToUser" id="_authAddPackageToUser">
+
+		<td class="attributes"><code>
+			 public 
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_authAddPackageToUser">#</a>
+		<code><a href="source-class-Solution10.Auth.StorageDelegate.html#43-51" title="Go to source code">authAddPackageToUser</a>( <span>string <var>$instance_name</var></span>, <span><code><a href="class-Solution10.Auth.UserRepresentation.html">Solution10\Auth\UserRepresentation</a></code> <var>$user</var></span>, <span><code><a href="class-Solution10.Auth.Package.html">Solution10\Auth\Package</a></code> <var>$package</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Adding a package to a given user.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Adding a package to a given user.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$instance_name</var></dt>
+					<dd><code>string</code><br>$instance_name Auth instance name</dd>
+					<dt><var>$user</var></dt>
+					<dd><code><code><a href="class-Solution10.Auth.UserRepresentation.html">Solution10\Auth\UserRepresentation</a></code></code><br>$user User representation (taken from authFetchUserRepresentation)</dd>
+					<dt><var>$package</var></dt>
+					<dd><code><code><a href="class-Solution10.Auth.Package.html">Solution10\Auth\Package</a></code></code><br>$package Package to add.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>boolean</code><br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="authRemovePackageFromUser" id="_authRemovePackageFromUser">
+
+		<td class="attributes"><code>
+			 public 
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_authRemovePackageFromUser">#</a>
+		<code><a href="source-class-Solution10.Auth.StorageDelegate.html#53-61" title="Go to source code">authRemovePackageFromUser</a>( <span>string <var>$instance_name</var></span>, <span><code><a href="class-Solution10.Auth.UserRepresentation.html">Solution10\Auth\UserRepresentation</a></code> <var>$user</var></span>, <span><code><a href="class-Solution10.Auth.Package.html">Solution10\Auth\Package</a></code> <var>$package</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Removing a package from a given user.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Removing a package from a given user.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$instance_name</var></dt>
+					<dd><code>string</code><br>$instance_name Auth instance name</dd>
+					<dt><var>$user</var></dt>
+					<dd><code><code><a href="class-Solution10.Auth.UserRepresentation.html">Solution10\Auth\UserRepresentation</a></code></code><br>$user User representation (taken from authFetchUserRepresentation)</dd>
+					<dt><var>$package</var></dt>
+					<dd><code><code><a href="class-Solution10.Auth.Package.html">Solution10\Auth\Package</a></code></code><br>$package Package to remove.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>boolean</code><br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="authFetchPackagesForUser" id="_authFetchPackagesForUser">
+
+		<td class="attributes"><code>
+			 public 
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_authFetchPackagesForUser">#</a>
+		<code><a href="source-class-Solution10.Auth.StorageDelegate.html#63-70" title="Go to source code">authFetchPackagesForUser</a>( <span>string <var>$instance_name</var></span>, <span><code><a href="class-Solution10.Auth.UserRepresentation.html">Solution10\Auth\UserRepresentation</a></code> <var>$user</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Fetching all packages for a user</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Fetching all packages for a user</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$instance_name</var></dt>
+					<dd><code>string</code><br>$instance_name Auth instance name</dd>
+					<dt><var>$user</var></dt>
+					<dd><code><code><a href="class-Solution10.Auth.UserRepresentation.html">Solution10\Auth\UserRepresentation</a></code></code><br>$user User representation (taken from authFetchUserRepresentation)</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array</code><br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="authUserHasPackage" id="_authUserHasPackage">
+
+		<td class="attributes"><code>
+			 public 
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_authUserHasPackage">#</a>
+		<code><a href="source-class-Solution10.Auth.StorageDelegate.html#72-80" title="Go to source code">authUserHasPackage</a>( <span>string <var>$instance_name</var></span>, <span><code><a href="class-Solution10.Auth.UserRepresentation.html">Solution10\Auth\UserRepresentation</a></code> <var>$user</var></span>, <span><code><a href="class-Solution10.Auth.Package.html">Solution10\Auth\Package</a></code> <var>$package</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Returns whether a user has a given package or not.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Returns whether a user has a given package or not.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$instance_name</var></dt>
+					<dd><code>string</code><br>$instance_name Auth instance name</dd>
+					<dt><var>$user</var></dt>
+					<dd><code><code><a href="class-Solution10.Auth.UserRepresentation.html">Solution10\Auth\UserRepresentation</a></code></code><br>$user User representation</dd>
+					<dt><var>$package</var></dt>
+					<dd><code><code><a href="class-Solution10.Auth.Package.html">Solution10\Auth\Package</a></code></code><br>$package Package to check for</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>boolean</code><br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="authOverridePermissionForUser" id="_authOverridePermissionForUser">
+
+		<td class="attributes"><code>
+			 public 
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_authOverridePermissionForUser">#</a>
+		<code><a href="source-class-Solution10.Auth.StorageDelegate.html#82-96" title="Go to source code">authOverridePermissionForUser</a>( <span>string <var>$instance_name</var></span>, <span><code><a href="class-Solution10.Auth.UserRepresentation.html">Solution10\Auth\UserRepresentation</a></code> <var>$user</var></span>, <span>string <var>$permission</var></span>, <span>boolean <var>$new_value</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Stores an overridden permission for a user</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Stores an overridden permission for a user</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$instance_name</var></dt>
+					<dd><code>string</code><br>$instance_name Auth instance name</dd>
+					<dt><var>$user</var></dt>
+					<dd><code><code><a href="class-Solution10.Auth.UserRepresentation.html">Solution10\Auth\UserRepresentation</a></code></code><br>$user</dd>
+					<dt><var>$permission</var></dt>
+					<dd><code>string</code><br>$permission Permission name</dd>
+					<dt><var>$new_value</var></dt>
+					<dd><code>boolean</code><br>$new_value New value</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>boolean</code><br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="authFetchOverridesForUser" id="_authFetchOverridesForUser">
+
+		<td class="attributes"><code>
+			 public 
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_authFetchOverridesForUser">#</a>
+		<code><a href="source-class-Solution10.Auth.StorageDelegate.html#98-105" title="Go to source code">authFetchOverridesForUser</a>( <span>string <var>$instance_name</var></span>, <span><code><a href="class-Solution10.Auth.UserRepresentation.html">Solution10\Auth\UserRepresentation</a></code> <var>$user</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Fetches all the permission overrides for a given user.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Fetches all the permission overrides for a given user.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$instance_name</var></dt>
+					<dd><code>string</code><br>$instance_name Auth instance name</dd>
+					<dt><var>$user</var></dt>
+					<dd><code><code><a href="class-Solution10.Auth.UserRepresentation.html">Solution10\Auth\UserRepresentation</a></code></code><br>$user</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array</code><br>An array of permission =&gt; (bool) values<br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="authResetOverridesForUser" id="_authResetOverridesForUser">
+
+		<td class="attributes"><code>
+			 public 
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_authResetOverridesForUser">#</a>
+		<code><a href="source-class-Solution10.Auth.StorageDelegate.html#107-114" title="Go to source code">authResetOverridesForUser</a>( <span>string <var>$instance_name</var></span>, <span><code><a href="class-Solution10.Auth.UserRepresentation.html">Solution10\Auth\UserRepresentation</a></code> <var>$user</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Removes all the overrides for a given user.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Removes all the overrides for a given user.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$instance_name</var></dt>
+					<dd><code>string</code><br>$instance_name Auth instance name</dd>
+					<dt><var>$user</var></dt>
+					<dd><code><code><a href="class-Solution10.Auth.UserRepresentation.html">Solution10\Auth\UserRepresentation</a></code></code><br>$user</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>boolean</code><br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>
