@@ -201,6 +201,7 @@ class Auth
      *
      * @param   UserRepresentation|int
      * @return  bool    Whether the force worked or not.
+     * @throws  Exception\User  If the user is not found.
      */
     public function forceLogin($user)
     {
@@ -210,11 +211,7 @@ class Auth
 
         $user = (is_object($user)) ?
             $user :
-            $this->storage->authFetchUserRepresentation($this->name(), $user);
-
-        if (!$user) {
-            return false;
-        }
+            $this->loadUserRepresentation($user);
 
         $this->session->authWrite($this->name(), $user->id());
 
@@ -226,6 +223,7 @@ class Auth
      *
      * @return  mixed   Whatever the StorageDelegate throws back
      * @uses    StorageDelegate::authFetchUserRepresentation
+     * @throws  Exception\User
      */
     public function user()
     {
@@ -282,7 +280,6 @@ class Auth
      * @param   mixed               $package    String name of package, or instance of package.
      * @return  $this
      * @throws  Exception\Package
-     * @throws  Exception\User
      * @uses    StorageDelegate    Lots.
      */
     public function addPackageToUser(UserRepresentation $user, $package)
@@ -473,7 +470,7 @@ class Auth
         // Check that there is actually a permission called $permission:
         if (!array_key_exists($permission, $this->permissions_cache[$user->id()])) {
             throw new Exception\Override(
-                'Unknown permission: '.$permission.' on user id: '.$user,
+                'Unknown permission: '.$permission.' on user id: '.$user->id(),
                 Exception\Override::UNKNOWN_PERMISSION
             );
         }
@@ -496,8 +493,6 @@ class Auth
      */
     public function removeOverrideForUser(UserRepresentation $user, $permission)
     {
-        $user = $this->loadUserRepresentation($user);
-
         if ($this->storage->authRemoveOverrideForUser($this->name(), $user, $permission)) {
             $this->buildPermissionsForUser($user);
         }

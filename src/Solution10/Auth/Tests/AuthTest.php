@@ -241,6 +241,9 @@ class AuthTest extends PHPUnit_Framework_TestCase
 
     /**
      * Testing force login with an unknown user
+     *
+     * @expectedException       \Solution10\Auth\Exception\User
+     * @expectedExceptionCode   \Solution10\Auth\Exception\User::USER_NOT_FOUND
      */
     public function testForceLoginUnknownUser()
     {
@@ -350,23 +353,6 @@ class AuthTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Testing adding a package to a user that doesn't exist
-     *
-     * @expectedException        \Solution10\Auth\Exception\User
-     * @expectedExceptionCode    \Solution10\Auth\Exception\User::USER_NOT_FOUND
-     */
-    public function testAddPackageNoUser()
-    {
-        $storage_mock = new StorageDelegateMock();
-        $auth = new Auth('default', $this->session_mock, $storage_mock, array(
-            'cost' => 8,
-        ));
-
-        $package = 'Solution10\Auth\Tests\Mocks\Package';
-        $auth->addPackageToUser($this->userMock(10), $package);
-    }
-
-    /**
      * Testing adding a package that doesn't exist
      *
      * @expectedException        \Solution10\Auth\Exception\Package
@@ -442,23 +428,6 @@ class AuthTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Testing removing a package from a user that doesn't exist
-     *
-     * @expectedException        \Solution10\Auth\Exception\User
-     * @expectedExceptionCode    \Solution10\Auth\Exception\User::USER_NOT_FOUND
-     */
-    public function testRemovePackageNoUser()
-    {
-        $storage_mock = new StorageDelegateMock();
-        $auth = new Auth('default', $this->session_mock, $storage_mock, array(
-            'cost' => 8,
-        ));
-
-        $package = 'Solution10\Auth\Tests\Mocks\Package';
-        $auth->removePackageFromUser($this->userMock(10), $package);
-    }
-
-    /**
      * Tests removing a package that doesn't exist
      * Should all be silent.
      */
@@ -488,7 +457,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
         $package = '\Solution10\Auth\Tests\Mocks\Package';
         $auth->addPackageToUser($user, $package);
 
-        $this->assertEquals($user, $storage_mock->users[1]['packages']);
+        $this->assertEquals(array(new $package()), $storage_mock->users[1]['packages']);
     }
 
     /**
@@ -505,23 +474,6 @@ class AuthTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($auth->packagesForUser($user), array());
     }
-
-    /**
-     * Tests fetching the packages with unknown user
-     *
-     * @expectedException        \Solution10\Auth\Exception\User
-     * @expectedExceptionCode    \Solution10\Auth\Exception\User::USER_NOT_FOUND
-     */
-    public function testUserPackagesNoUser()
-    {
-        $storage_mock = new StorageDelegateMock();
-        $auth = new Auth('default', $this->session_mock, $storage_mock, array(
-            'cost' => 8,
-        ));
-
-        $auth->packagesForUser($this->userMock(10));
-    }
-
 
     /**
      * Testing if a user has a package
@@ -585,22 +537,6 @@ class AuthTest extends PHPUnit_Framework_TestCase
 
         $package = '\Solution10\Auth\Tests\Mocks\Package';
         $this->assertFalse($auth->userHasPackage($this->userMock(1), $package));
-    }
-
-    /**
-     * Test user has package with unknown user
-     *
-     * @expectedException        \Solution10\Auth\Exception\User
-     * @expectedExceptionCode    \Solution10\Auth\Exception\User::USER_NOT_FOUND
-     */
-    public function testUserHasPackageNoUser()
-    {
-        $storage_mock = new StorageDelegateMock();
-        $auth = new Auth('default', $this->session_mock, $storage_mock, array(
-            'cost' => 8,
-        ));
-
-        $auth->userHasPackage($this->userMock(10), 'Doesnt matter');
     }
 
     /**
@@ -819,18 +755,6 @@ class AuthTest extends PHPUnit_Framework_TestCase
         $auth->overridePermissionForUser($user, 'login', true);
 
         $this->assertTrue($auth->userCan($user, 'login'));
-    }
-
-    /**
-     * Testing override on a user that doesn't exist
-     *
-     * @expectedException       \Solution10\Auth\Exception\User
-     * @expectedExceptionCode   \Solution10\Auth\Exception\User::USER_NOT_FOUND
-     */
-    public function testOverrideUserNotFound()
-    {
-        $auth = $this->canInstance();
-        $auth->overridePermissionForUser($this->userMock(10), 'login', true);
     }
 
     /**
