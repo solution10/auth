@@ -3,6 +3,7 @@
 namespace Solution10\Auth;
 
 use Solution10\Collection\Collection;
+use Solution10\ManagedInstance\ManagedInstance;
 
 /**
  * Authentication Library.
@@ -15,15 +16,12 @@ use Solution10\Collection\Collection;
  */
 class Auth
 {
+    use ManagedInstance;
+
     /**
      * @var    string    Instance name
      */
     protected $name;
-
-    /**
-     * @var    array    Array of instances
-     */
-    protected static $instances = array();
 
     /**
      * @var SessionDelegate Instance of the SessionDelegate interface.
@@ -84,38 +82,6 @@ class Auth
     public function name()
     {
         return $this->name;
-    }
-
-    /**
-     * Fetching an instance by name
-     *
-     * @param   string      $name   Name of the instance
-     * @return  Auth|false
-     */
-    public static function instance($name)
-    {
-        return (isset(self::$instances[$name])) ? self::$instances[$name] : false;
-    }
-
-    /**
-     * Fetching all instances of Auth
-     *
-     * @return    array
-     */
-    public static function instances()
-    {
-        return self::$instances;
-    }
-
-    /**
-     * Removes all instances from Auth's knowledge. Does *not* log those users out, you'll need
-     * to do that manually.
-     *
-     * This is largely used for unit tests.
-     */
-    public static function clearInstances()
-    {
-        self::$instances = array();
     }
 
     /**

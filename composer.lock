@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d9e5eceb89672e11e3f89b0f662e7406",
+    "hash": "ecbbe8b527a087c6e44bc7d9f34397e0",
     "packages": [
         {
             "name": "ircmaxell/password-compat",
@@ -47,32 +47,32 @@
         },
         {
             "name": "solution10/collection",
-            "version": "v1.2.0",
+            "version": "v1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Solution10/collection.git",
-                "reference": "cad4f5e4ed368872cf3f800d5d780cad1d09724a"
+                "reference": "3ada95ad46a3bdc8c1a14aa0bd69a1e9b5c3ed30"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Solution10/collection/zipball/cad4f5e4ed368872cf3f800d5d780cad1d09724a",
-                "reference": "cad4f5e4ed368872cf3f800d5d780cad1d09724a",
+                "url": "https://api.github.com/repos/Solution10/collection/zipball/3ada95ad46a3bdc8c1a14aa0bd69a1e9b5c3ed30",
+                "reference": "3ada95ad46a3bdc8c1a14aa0bd69a1e9b5c3ed30",
                 "shasum": ""
             },
             "require": {
                 "php": ">= 5.3.0"
             },
             "require-dev": {
-                "apigen/apigen": "~2.8.0",
-                "nette/nette": "~2.1.3",
+                "apigen/apigen": "dev-master",
                 "phpunit/phpunit": "4.1.*",
                 "satooshi/php-coveralls": "dev-master",
                 "squizlabs/php_codesniffer": "1.*"
             },
             "type": "library",
             "autoload": {
-                "psr-0": {
-                    "Solution10\\Collection": "src"
+                "psr-4": {
+                    "Solution10\\Collection\\": "src",
+                    "Solution10\\Collection\\Tests\\": "tests"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -93,7 +93,54 @@
                 "sort",
                 "splice"
             ],
-            "time": "2014-07-25 20:32:04"
+            "time": "2014-10-29 22:33:06"
+        },
+        {
+            "name": "solution10/managed-instance",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Solution10/managed-instance.git",
+                "reference": "28db8c441c394a0df979cb97d50a011554f736f6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Solution10/managed-instance/zipball/28db8c441c394a0df979cb97d50a011554f736f6",
+                "reference": "28db8c441c394a0df979cb97d50a011554f736f6",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">= 5.4"
+            },
+            "require-dev": {
+                "apigen/apigen": "dev-master",
+                "phpunit/phpunit": "~4.1",
+                "satooshi/php-coveralls": "dev-master",
+                "squizlabs/php_codesniffer": "~1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Solution10\\ManagedInstance\\": "src",
+                    "Solution10\\ManagedInstance\\Tests\\": "tests"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alex Gisby",
+                    "email": "alex@solution10.com"
+                }
+            ],
+            "description": "A simple trait to allow classes to manage their own instances. DI on the cheap.",
+            "keywords": [
+                "component",
+                "instances"
+            ],
+            "time": "2014-11-07 20:27:12"
         }
     ],
     "packages-dev": [
@@ -150,12 +197,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/apigen/apigen.git",
-                "reference": "4bef8a039feda862f2bcd9aec134a7d9192c7d9f"
+                "reference": "45eb534ae62981ed1163b4d09d07d5c7a5bd1302"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/apigen/apigen/zipball/4bef8a039feda862f2bcd9aec134a7d9192c7d9f",
-                "reference": "4bef8a039feda862f2bcd9aec134a7d9192c7d9f",
+                "url": "https://api.github.com/repos/apigen/apigen/zipball/45eb534ae62981ed1163b4d09d07d5c7a5bd1302",
+                "reference": "45eb534ae62981ed1163b4d09d07d5c7a5bd1302",
                 "shasum": ""
             },
             "require": {
@@ -237,7 +284,61 @@
                 "generator",
                 "phpdoc"
             ],
-            "time": "2014-10-25 16:46:12"
+            "time": "2014-11-07 16:13:12"
+        },
+        {
+            "name": "doctrine/instantiator",
+            "version": "1.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/instantiator.git",
+                "reference": "f976e5de371104877ebc89bd8fecb0019ed9c119"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/f976e5de371104877ebc89bd8fecb0019ed9c119",
+                "reference": "f976e5de371104877ebc89bd8fecb0019ed9c119",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3,<8.0-DEV"
+            },
+            "require-dev": {
+                "athletic/athletic": "~0.1.8",
+                "ext-pdo": "*",
+                "ext-phar": "*",
+                "phpunit/phpunit": "~4.0",
+                "squizlabs/php_codesniffer": "2.0.*@ALPHA"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Doctrine\\Instantiator\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marco Pivetta",
+                    "email": "ocramius@gmail.com",
+                    "homepage": "http://ocramius.github.com/"
+                }
+            ],
+            "description": "A small, lightweight utility to instantiate objects in PHP without invoking their constructors",
+            "homepage": "https://github.com/doctrine/instantiator",
+            "keywords": [
+                "constructor",
+                "instantiate"
+            ],
+            "time": "2014-10-13 12:58:55"
         },
         {
             "name": "guzzle/guzzle",
@@ -1676,16 +1777,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "4.1.6",
+            "version": "4.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "241116219bb7e3b8111a36ffd8f37546888738d6"
+                "reference": "23e4e0310f037aae873cc81b8658dbbb82878f71"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/241116219bb7e3b8111a36ffd8f37546888738d6",
-                "reference": "241116219bb7e3b8111a36ffd8f37546888738d6",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/23e4e0310f037aae873cc81b8658dbbb82878f71",
+                "reference": "23e4e0310f037aae873cc81b8658dbbb82878f71",
                 "shasum": ""
             },
             "require": {
@@ -1696,10 +1797,10 @@
                 "ext-spl": "*",
                 "php": ">=5.3.3",
                 "phpunit/php-code-coverage": "~2.0",
-                "phpunit/php-file-iterator": "~1.3.1",
+                "phpunit/php-file-iterator": "~1.3.2",
                 "phpunit/php-text-template": "~1.2",
                 "phpunit/php-timer": "~1.0.2",
-                "phpunit/phpunit-mock-objects": "2.1.5",
+                "phpunit/phpunit-mock-objects": "~2.3",
                 "sebastian/comparator": "~1.0",
                 "sebastian/diff": "~1.1",
                 "sebastian/environment": "~1.0",
@@ -1716,7 +1817,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.1.x-dev"
+                    "dev-master": "4.3.x-dev"
                 }
             },
             "autoload": {
@@ -1746,28 +1847,29 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-08-17 08:07:02"
+            "time": "2014-10-22 11:43:12"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
-            "version": "2.1.5",
+            "version": "2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit-mock-objects.git",
-                "reference": "7878b9c41edb3afab92b85edf5f0981014a2713a"
+                "reference": "c63d2367247365f688544f0d500af90a11a44c65"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/7878b9c41edb3afab92b85edf5f0981014a2713a",
-                "reference": "7878b9c41edb3afab92b85edf5f0981014a2713a",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/c63d2367247365f688544f0d500af90a11a44c65",
+                "reference": "c63d2367247365f688544f0d500af90a11a44c65",
                 "shasum": ""
             },
             "require": {
+                "doctrine/instantiator": "~1.0,>=1.0.1",
                 "php": ">=5.3.3",
                 "phpunit/php-text-template": "~1.2"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.1"
+                "phpunit/phpunit": "~4.3"
             },
             "suggest": {
                 "ext-soap": "*"
@@ -1775,7 +1877,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.1.x-dev"
+                    "dev-master": "2.3.x-dev"
                 }
             },
             "autoload": {
@@ -1784,9 +1886,6 @@
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
-            "include-path": [
-                ""
-            ],
             "license": [
                 "BSD-3-Clause"
             ],
@@ -1803,7 +1902,7 @@
                 "mock",
                 "xunit"
             ],
-            "time": "2014-06-12 07:22:15"
+            "time": "2014-10-03 05:12:11"
         },
         {
             "name": "psr/log",
@@ -2623,7 +2722,7 @@
     },
     "prefer-stable": false,
     "platform": {
-        "php": ">= 5.3.7"
+        "php": ">= 5.4"
     },
     "platform-dev": []
 }

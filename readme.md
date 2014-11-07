@@ -23,7 +23,7 @@ Installation is as you'd expect, simply via a Composer requirement:
 ```json
 {
     "require": {
-        "solution10/auth": "1.*"
+        "solution10/auth": "~1.0"
     }
 }
 ```
@@ -112,7 +112,7 @@ You can read more about UserRepresentation in the [Integration guide](http://git
 
 ## PHP Requirements
 
-- PHP >= 5.3
+- PHP >= 5.4
 
 ## Documentation
 
