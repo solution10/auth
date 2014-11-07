@@ -71,7 +71,8 @@ class Auth
 
         $this->options = array_merge($defaultOptions, $options);
 
-        self::$instances[$name] = $this;
+        // Register this instance:
+        $this->registerInstance($name);
     }
 
     /**

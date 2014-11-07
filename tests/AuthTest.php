@@ -93,7 +93,6 @@ class AuthTest extends PHPUnit_Framework_TestCase
         $session = new SessionDelegateMock();
         $storage = new StorageDelegateMock();
         $defaultAuth = new Auth('default', $session, $storage);
-        $defaultAuth->registerInstance();
 
         $this->assertEquals($defaultAuth, Auth::instance());
     }
@@ -121,10 +120,7 @@ class AuthTest extends PHPUnit_Framework_TestCase
         $storage = new StorageDelegateMock();
 
         $defaultAuth = new Auth('default', $session, $storage);
-        $defaultAuth->registerInstance();
-
         $anotherAuth = new Auth('another', $session, $storage);
-        $anotherAuth->registerInstance('another');
 
         $instances = Auth::instances();
         $this->assertCount(2, $instances);
