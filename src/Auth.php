@@ -227,6 +227,9 @@ class Auth
     {
         if (!isset($this->user)) {
             $this->user = $this->storage->authFetchUserRepresentation($this->name(), $user_id);
+            if ($this->user) {
+                $this->buildPermissionsForUser($this->user);
+            }
         }
 
         if (!$this->user) {
