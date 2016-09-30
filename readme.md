@@ -116,12 +116,6 @@ You can read more about UserRepresentation in the [Integration guide](http://git
 
 For a user guide: [Check out the Wiki here on GitHub](http://github.com/solution10/auth/wiki).
 
-For API docs, from a checkout of the project:
-
-    $ make
-
-Will dump an api/ folder in the root for you to peruse offline.
-
 ## Author
 
 Alex Gisby: [GitHub](http://github.com/alexgisby), [Twitter](http://twitter.com/alexgisby)
