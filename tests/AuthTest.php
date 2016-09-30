@@ -561,6 +561,13 @@ class AuthTest extends PHPUnit_Framework_TestCase
     /**
      * Basic userCan() tests on an instance with a single package
      */
+
+    public function testUserCanOtherUser()
+    {
+        $auth = $this->canInstance();
+        $this->assertFalse($auth->userCan($this->userMock(2), 'login'));
+    }
+
     public function testCanBool()
     {
         $auth = $this->canInstance();

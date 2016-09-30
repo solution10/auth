@@ -386,6 +386,10 @@ class Auth
      */
     public function userCan(UserRepresentation $user, $permission, array $args = array())
     {
+        if (!array_key_exists($user->id(), $this->permissions_cache)) {
+            $this->buildPermissionsForUser($user);
+        }
+
         if (!array_key_exists($permission, $this->permissions_cache[$user->id()])) {
             // No permission found. To be safe, we always return false in these
             // cases.
