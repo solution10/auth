@@ -352,8 +352,13 @@ class Auth
      */
     protected function buildPermissionsForUser(UserRepresentation $user)
     {
-        // Make use of Collection to do some clever sorting:
+
         $all_packages = $this->packagesForUser($user);
+        // initialize package objects
+        foreach($all_packages as $index => $package_name) {
+            $all_packages[$index] = new $package_name();
+        }
+        // Make use of Collection to do some clever sorting:
         $sorted_packages = new Collection($all_packages);
         $sorted_packages->sortByMember('precedence');
 
