@@ -40,11 +40,6 @@ class Package extends BasePackage
 
     }
 
-    public function name()
-    {
-        return 'TestPackage';
-    }
-
     public function editPost()
     {
         return false;

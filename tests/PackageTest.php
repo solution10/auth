@@ -94,6 +94,6 @@ class PackageTest extends PHPUnit_Framework_TestCase
     public function testName()
     {
         $package = new PackageMock();
-        $this->assertEquals('TestPackage', $package->name());
+        $this->assertEquals(PackageMock::class, $package->name());
     }
 }

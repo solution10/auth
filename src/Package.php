@@ -32,11 +32,14 @@ abstract class Package
     abstract public function init();
 
     /**
-     * Your package must return a name for itself.
+     * This returns the package's name
      *
      * @return    string
      */
-    abstract public function name();
+    public function name() {
+        // get the child's full name (namespace + class name)
+        return get_class($this);
+    }
 
     /**
      * Constructor calls init()

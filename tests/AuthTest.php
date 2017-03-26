@@ -753,6 +753,28 @@ class AuthTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that precedence works how we expect it to
+     */
+    public function testPrecedenceApplied()
+    {
+        $storage_mock = new StorageDelegateMock();
+        $auth = new Auth('default', $this->session_mock, $storage_mock, array(
+            'cost' => 8,
+        ));
+
+        $user = $this->userMock(1);
+
+        // Add the packages out of order to ensure that they apply properly.
+        $auth->addPackageToUser($user, 'Solution10\Auth\Tests\Mocks\HigherPackage');
+        $auth->addPackageToUser($user, 'Solution10\Auth\Tests\Mocks\Package');
+
+        // HigherPackage login: true
+        // Package login: false
+        // Precedence dictates that HigherPackage should win out.
+        $this->assertTrue($auth->userCan($user, 'login'));
+    }
+
+    /**
      * Testing adding an override
      */
     public function testOverrideBasic()
