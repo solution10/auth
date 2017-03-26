@@ -544,6 +544,26 @@ class AuthTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that the shortcut hasPackage works as intended.
+     */
+    public function testHasPackage()
+    {
+        $storage_mock = new StorageDelegateMock();
+        $auth = new Auth('default', $this->session_mock, $storage_mock, array(
+            'cost' => 8,
+        ));
+        $user = $this->userMock(1);
+        $package = new Package();
+
+        $this->assertFalse($auth->hasPackage($package));
+
+        $auth->addPackageToUser($user, $package);
+        $auth->forceLogin($user);
+
+        $this->assertTrue($auth->hasPackage($package));
+    }
+
+    /**
      * Data setup for can() tests
      */
     protected function canInstance()

@@ -337,6 +337,20 @@ class Auth
         return false;
     }
 
+    /**
+     * A shortcut for userHasPackage that operates on the current user.
+     *
+     * @param   mixed   $package    String name of the the package or the instance of the package.
+     * @return  bool
+     */
+    public function hasPackage($package)
+    {
+        if (!$this->loggedIn()) {
+            return false;
+        }
+        return $this->userHasPackage($this->user(), $package);
+    }
+
 
     /**
      * --------------- Permissions! -----------------
