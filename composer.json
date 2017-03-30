@@ -22,7 +22,11 @@
     },
     "autoload": {
         "psr-4": {
-            "Solution10\\Auth\\": "src",
+            "Solution10\\Auth\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
             "Solution10\\Auth\\Tests\\": "tests"
         }
     }
